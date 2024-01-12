@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "{{APIKEY}}",
+            authDomain: "usual-queries-login.firebaseapp.com",
+            projectId: "usual-queries-login",
+            storageBucket: "usual-queries-login.appspot.com",
+            messagingSenderId: "808817795355",
+            appId: "1:808817795355:web:6a2454e71cdce466f773be",
+            measurementId: "G-T9V22WWTBK"
+        };
+        firebase.initializeApp(firebaseConfig);
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then((result) => {
+                const user = result.user;
+                const email = user.email;
+                if (email.endsWith('@gsv.ac.in')) {
+                    const database = firebase.database();
+                    database.ref('users/' + user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL
+                    });
+                    alert('User signed in successfully!');
+                } else {
+                    firebase.auth().signOut();
+                    alert('Only @gsv.ac.in email addresses are allowed.');
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Firebase Authentication</h1>
+    <button onclick="signInWithGoogle()">Sign In/Up with Google</button>
+</body>
+
+</html>
