@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Authentication</title>
-    <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -14,6 +13,7 @@
 <body>
     <div id="app">
         <button id="signInBtn">Sign In/Up</button>
+        <button id="signOutBtn" style="display: none;">Sign Out</button>
         <div id="userDetails" style="display: none;">
             <img id="userPhoto" width="50" height="50" style="border-radius: 50%;">
             <p id="userName"></p>
@@ -32,31 +32,24 @@
             appId: "1:808817795355:web:6a2454e71cdce466f773be",
             measurementId: "G-T9V22WWTBK"
         };
-
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-
         const auth = firebase.auth();
         const database = firebase.database();
-
         const signInBtn = document.getElementById('signInBtn');
+        const signOutBtn = document.getElementById('signOutBtn');
         const userDetails = document.getElementById('userDetails');
         const userPhoto = document.getElementById('userPhoto');
         const userName = document.getElementById('userName');
         const userPoints = document.getElementById('userPoints');
-
         signInBtn.addEventListener('click', async () => {
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 const result = await auth.signInWithPopup(provider);
                 const user = result.user;
-
                 if (user.email.endsWith('@gsv.ac.in')) {
                     userDetails.style.display = 'block';
                     userPhoto.src = user.photoURL;
                     userName.innerText = user.displayName;
-
-                    // Get or create user data in Realtime Database
                     const userRef = database.ref('users/' + user.uid);
                     userRef.once('value', (snapshot) => {
                         const userData = snapshot.val();
@@ -81,10 +74,10 @@
         auth.onAuthStateChanged(async (user) => {
             if (user && user.email.endsWith('@gsv.ac.in')) {
                 userDetails.style.display = 'block';
+                signInBtn.style.display = 'none';
+                signOutBtn.style.display = 'block';
                 userPhoto.src = user.photoURL;
                 userName.innerText = user.displayName;
-
-                // Get or create user data in Realtime Database
                 const userRef = database.ref('users/' + user.uid);
                 userRef.once('value', (snapshot) => {
                     const userData = snapshot.val();
