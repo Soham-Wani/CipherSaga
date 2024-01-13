@@ -16,8 +16,6 @@
     <script type="module">
   
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
- 
-
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
   
   const firebaseConfig = {
@@ -33,8 +31,10 @@
  
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
-  const provider = new GoogleAuthProvider()
+  const provider = new GoogleAuthProvider();
+  const allowedDomain = "gsv.ac.in";
 
+  
   const signInButton = document.getElementById("signInButton");
   const signOutButton = document.getElementById("signOutButton");
   const message = document.getElementById("message");
@@ -48,7 +48,15 @@
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user
-        console.log(user);
+        const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
+                if (userEmailDomain === allowedDomain) {
+                    console.log(user);
+                } else {
+                    // If the email domain is not allowed, sign the user out
+                    signOut(auth).then(() => {
+                        alert("You must sign in with your college email address.");
+                    }).catch((error) => {});
+                }
     }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message
@@ -63,14 +71,22 @@
 
   onAuthStateChanged(auth, (user) => {
     if(user) {
-      signOutButton.style.display = "block";
-      message.style.display = "block";
-      userName.innerHTML = user.displayName;
-      userEmail.innerHTML = user.email
-    } else {
-      signOutButton.style.display = "none";
-      message.style.display = "none";
-    }
+                const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
+                if (userEmailDomain === allowedDomain) {
+                    signOutButton.style.display = "block";
+                    message.style.display = "block";
+                    userName.innerHTML = user.displayName;
+                    userEmail.innerHTML = user.email;
+                } else {
+                    // If the email domain is not allowed, sign the user out
+                    signOut(auth).then(() => {
+                        alert("You must sign in with your college email address.");
+                    }).catch((error) => {});
+                }
+            } else {
+                signOutButton.style.display = "none";
+                message.style.display = "none";
+            }
   })
 
   signInButton.addEventListener('click', userSignIn);
