@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PreCipherSaga Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <button id="signInButton">Create Account / Sign In</button>
@@ -14,69 +15,69 @@
     </div>
 
     <script type="module">
-  
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-  
-  const firebaseConfig = {
-          apiKey: "AIzaSyD6AZgQ3G8UTy4WoavhyCfJ95xgTEcWxJ0",
-          authDomain: "preciphersaga-fb.firebaseapp.com",
-          projectId: "preciphersaga-fb",
-          storageBucket: "preciphersaga-fb.appspot.com",
-          messagingSenderId: "563353573944",
-          appId: "1:563353573944:web:d23365fc2ab8b49fd664cd",
-          measurementId: "G-9W5ECCZ5LC"
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        import { getDatabase, ref, set, child, get } from  "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6AZgQ3G8UTy4WoavhyCfJ95xgTEcWxJ0",
+            authDomain: "preciphersaga-fb.firebaseapp.com",
+            projectId: "preciphersaga-fb",
+            storageBucket: "preciphersaga-fb.appspot.com",
+            messagingSenderId: "563353573944",
+            appId: "1:563353573944:web:d23365fc2ab8b49fd664cd",
+            measurementId: "G-9W5ECCZ5LC"
         };
-      
- 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  const allowedDomain = "gsv.ac.in";
 
-  
-  const signInButton = document.getElementById("signInButton");
-  const signOutButton = document.getElementById("signOutButton");
-  const message = document.getElementById("message");
-  const userName = document.getElementById("userName");
-  const userEmail = document.getElementById("userEmail");
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+        const db = getDatabase();
+        const allowedDomain = "gsv.ac.in";
 
-  signOutButton.style.display = "none";
-  message.style.display = "none";
+        const signInButton = document.getElementById("signInButton");
+        const signOutButton = document.getElementById("signOutButton");
+        const message = document.getElementById("message");
+        const userNameSpan = document.getElementById("userName");
+        const userEmailSpan = document.getElementById("userEmail");
 
-  const userSignIn = async() => {
-    signInWithPopup(auth, provider)
-    .then((result) => {
-        const user = result.user
-        const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
+        signOutButton.style.display = "none";
+        message.style.display = "none";
+
+        const userSignIn = async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+
+                const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
                 if (userEmailDomain === allowedDomain) {
                     console.log(user);
+                    RegisterUser(); // Call RegisterUser after successful sign-in
                 } else {
                     // If the email domain is not allowed, sign the user out
                     signOut(auth).then(() => {
                         alert("You must sign in with your college email address.");
                     }).catch((error) => {});
                 }
-    }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message
-    })
-  }
+            } catch (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Sign-in error:", errorCode, errorMessage);
+            }
+        };
 
-  const userSignOut = async() => {
-    signOut(auth).then(() => {
-        alert("You have signed out successfully!");
-    }).catch((error) => {})
-  }
+        const userSignOut = async () => {
+            signOut(auth).then(() => {
+                alert("You have signed out successfully!");
+            }).catch((error) => {});
+        };
 
-  onAuthStateChanged(auth, (user) => {
-    if(user) {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
                 const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
                 if (userEmailDomain === allowedDomain) {
                     signOutButton.style.display = "block";
                     message.style.display = "block";
-                    userName.innerHTML = user.displayName;
-                    userEmail.innerHTML = user.email;
                 } else {
                     // If the email domain is not allowed, sign the user out
                     signOut(auth).then(() => {
@@ -87,13 +88,35 @@
                 signOutButton.style.display = "none";
                 message.style.display = "none";
             }
-  })
+        });
 
-  signInButton.addEventListener('click', userSignIn);
-  signOutButton.addEventListener('click', userSignOut);
+        signInButton.addEventListener('click', userSignIn);
+        signOutButton.addEventListener('click', userSignOut);
 
+        //----------------------------------------------------Register to firebase database-------------------------------------------------
+        function RegisterUser() {
+            const dbRef = ref(db);
+            const user = auth.currentUser;
 
-
-</script>
+            if (user) {
+                get(child(dbRef, "UsersList/" + user.uid)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        alert("Account Already Exists!");
+                    } else {
+                        // Initialize score to 0
+                        set(ref(db, "UsersList/" + user.uid), {
+                            email: user.email,
+                            name: user.displayName,
+                            score: 0, // Initialize score to 0
+                        }).catch((error) => {
+                            alert("Error: " + error);
+                        });
+                    }
+                });
+            } else {
+                alert("User is not signed in.");
+            }
+        }
+    </script>
 </body>
 </html>
