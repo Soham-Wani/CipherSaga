@@ -1,99 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase Authentication</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Authentication</title>
+
+  <!-- Add Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+
+  <!-- Replace YOUR_FIREBASE_CONFIG with your actual Firebase config -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
+      authDomain: "pre-cryptic-hunt.firebaseapp.com",
+      databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
+      projectId: "pre-cryptic-hunt",
+      storageBucket: "pre-cryptic-hunt.appspot.com",
+      messagingSenderId: "159924093216",
+      appId: "1:159924093216:web:725dfc274f420512c75745",
+      measurementId: "G-3KB6L92MQ8"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function signUp() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!email.endsWith('@gsv.ac.in')) {
+        alert('Only email addresses from the gsv.ac.in domain are allowed.');
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    function signIn() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!email.endsWith('@gsv.ac.in')) {
+        alert('Only email addresses from the gsv.ac.in domain are allowed.');
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          window.location.href = "quiz.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+  </script>
 </head>
-
 <body>
-    <div id="app">
-        <button id="signInBtn">Sign In/Up</button>
-        <button id="signOutBtn" style="display: none;">Sign Out</button>
-        <div id="userDetails" style="display: none;">
-            <img id="userPhoto" width="50" height="50" style="border-radius: 50%;">
-            <p id="userName"></p>
-            <p id="userPoints"></p>
-        </div>
-    </div>
+  <h1>Firebase Authentication</h1>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
-            authDomain: "usual-queries-login.firebaseapp.com",
-            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
-            projectId: "usual-queries-login",
-            storageBucket: "usual-queries-login.appspot.com",
-            messagingSenderId: "808817795355",
-            appId: "1:808817795355:web:6a2454e71cdce466f773be",
-            measurementId: "G-T9V22WWTBK"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-        const signInBtn = document.getElementById('signInBtn');
-        const signOutBtn = document.getElementById('signOutBtn');
-        const userDetails = document.getElementById('userDetails');
-        const userPhoto = document.getElementById('userPhoto');
-        const userName = document.getElementById('userName');
-        const userPoints = document.getElementById('userPoints');
-        signInBtn.addEventListener('click', async () => {
-            try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                const result = await auth.signInWithPopup(provider);
-                const user = result.user;
-                if (user.email.endsWith('@gsv.ac.in')) {
-                    userDetails.style.display = 'block';
-                    userPhoto.src = user.photoURL;
-                    userName.innerText = user.displayName;
-                    const userRef = database.ref('users/' + user.uid);
-                    userRef.once('value', (snapshot) => {
-                        const userData = snapshot.val();
-                        if (userData) {
-                            const points = userData.points || 0;
-                            userRef.set({ points: points + 100 });
-                        } else {
-                            userRef.set({ points: 100 });
-                        }
-                        userPoints.innerText = `Points: ${snapshot.val().points}`;
-                    });
-                } else {
-                    alert('You are not from gsv.ac.in. Please sign in with a valid account.');
-                    auth.signOut();
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        });
-
-        // Check if user is already signed in
-        auth.onAuthStateChanged(async (user) => {
-            if (user && user.email.endsWith('@gsv.ac.in')) {
-                userDetails.style.display = 'block';
-                signInBtn.style.display = 'none';
-                signOutBtn.style.display = 'block';
-                userPhoto.src = user.photoURL;
-                userName.innerText = user.displayName;
-                const userRef = database.ref('users/' + user.uid);
-                userRef.once('value', (snapshot) => {
-                    const userData = snapshot.val();
-                    if (userData) {
-                        const points = userData.points || 0;
-                        userRef.set({ points: points + 100 });
-                    } else {
-                        userRef.set({ points: 100 });
-                    }
-                    userPoints.innerText = `Points: ${snapshot.val().points}`;
-                });
-            } else {
-                userDetails.style.display = 'none';
-            }
-        });
-    </script>
+  <form id="authForm">
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <br>
+    <button type="button" onclick="signUp()">Sign Up</button>
+    <button type="button" onclick="signIn()">Sign In</button>
+  </form>
 </body>
-
 </html>

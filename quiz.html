@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <!-- Include Firebase scripts without module syntax -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>Quiz</h1>
+  <div id="question"></div>
+  <div>
+    <label>Your Answer: <input type="text" id="user-answer"></label>
+  </div>
+  <button onclick="checkAnswer()">Submit Answer</button>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
+    authDomain: "pre-cryptic-hunt.firebaseapp.com",
+    databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
+    projectId: "pre-cryptic-hunt",
+    storageBucket: "pre-cryptic-hunt.appspot.com",
+    messagingSenderId: "159924093216",
+    appId: "1:159924093216:web:725dfc274f420512c75745",
+    measurementId: "G-3KB6L92MQ8"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  const questionsRef = database.ref('/Questions');
+  const answersRef = database.ref('/Answers');
+  const leaderboardRef = database.ref('/Leaderboard');
+
+  let currentQuestion = 1;
+  let userScore = 0;
+
+  function fetchQuestion() {
+    questionsRef.child(`Q${currentQuestion}`).once('value').then(snapshot => {
+      const question = snapshot.val();
+      document.getElementById('question').innerHTML = `<p>${question}</p>`;
+    });
+  }
+
+  function checkAnswer() {
+    const userAnswer = document.getElementById('user-answer').value.toLowerCase();
+
+    answersRef.child(`A${currentQuestion}`).once('value').then(snapshot => {
+      const correctAnswer = snapshot.val().toLowerCase();
+
+      if (userAnswer === correctAnswer) {
+        alert('Correct!');
+        userScore += 100; // Update points for correct answer
+      } else {
+        alert('Incorrect. Try again.');
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion <= 3) {
+        fetchQuestion();
+      } else {
+        // Quiz completed, submit and update points
+        submitQuiz();
+      }
+    });
+  }
+
+  function submitQuiz() {
+    // Update points in the database (assuming the user is authenticated)
+    const userId = firebase.auth().currentUser.uid;
+
+    leaderboardRef.child(userId).once('value').then(snapshot => {
+      const existingUser = snapshot.val();
+
+      // Check if the user already exists in the leaderboard
+      if (existingUser) {
+        // Update the score if the new score is higher
+        if (userScore > existingUser.score) {
+          leaderboardRef.child(userId).update({ score: userScore });
+        }
+      } else {
+        // Add the user to the leaderboard if not already present
+        leaderboardRef.child(userId).set({ name: "User", score: userScore });
+      }
+
+      alert(`Quiz completed! Your score: ${userScore}`);
+    });
+  }
+
+  // Start the quiz by fetching the first question
+  fetchQuestion();
+</script>
+
+</body>
+</html>
