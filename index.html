@@ -6,8 +6,8 @@
   <title>Firebase Authentication</title>
 
   <!-- Add Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
   <!-- Replace YOUR_FIREBASE_CONFIG with your actual Firebase config -->
   <script>
@@ -22,44 +22,8 @@
       measurementId: "G-3KB6L92MQ8"
     };
 
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function signUp() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      if (!email.endsWith('@gsv.ac.in')) {
-        alert('Only email addresses from the gsv.ac.in domain are allowed.');
-        return;
-      }
-
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log(userCredential.user);
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    }
-
-    function signIn() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      if (!email.endsWith('@gsv.ac.in')) {
-        alert('Only email addresses from the gsv.ac.in domain are allowed.');
-        return;
-      }
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          window.location.href = "quiz.html";
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    }
   </script>
 </head>
 <body>
@@ -75,5 +39,53 @@
     <button type="button" onclick="signUp()">Sign Up</button>
     <button type="button" onclick="signIn()">Sign In</button>
   </form>
+
+  <script>
+    function signUp() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Check if the email is from the allowed domain
+      if (!email.endsWith('@gsv.ac.in')) {
+        alert('Only email addresses from the gsv.ac.in domain are allowed.');
+        return;
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // User signed up successfully
+          console.log(userCredential.user);
+          redirectToQuiz();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    function signIn() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Check if the email is from the allowed domain
+      if (!email.endsWith('@gsv.ac.in')) {
+        alert('Only email addresses from the gsv.ac.in domain are allowed.');
+        return;
+      }
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // User signed in successfully
+          console.log(userCredential.user);
+          redirectToQuiz();
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    function redirectToQuiz() {
+      window.location.href = "quiz.html";
+    }
+  </script>
 </body>
 </html>
