@@ -1,102 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz App</title>
+  <title>PreCipherSaga</title>
   <!-- Include Firebase scripts without module syntax -->
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    #quiz-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #3498db;
+    }
+
+    #question {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #ff0e0e;
+    }
+
+    #clock-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      color: #555;
+      background-color: #fff;
+      padding: 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Modal styles */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    #modal-content p {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="quiz-container">
-  <h1>Quiz</h1>
-  <div id="question"></div>
-  <div>
-    <label>Your Answer: <input type="text" id="user-answer"></label>
+  <div id="quiz-container">
+    <h1>PreCipherSaga</h1>
+    <div id="question"></div>
+    <div>
+      <label>Your Answer: <input type="text" id="user-answer"></label>
+    </div>
+    <button onclick="checkAnswer()">Submit Answer</button>
+    <div id="clock-container"></div>
   </div>
-  <button onclick="checkAnswer()">Submit Answer</button>
-</div>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
-    authDomain: "pre-cryptic-hunt.firebaseapp.com",
-    databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
-    projectId: "pre-cryptic-hunt",
-    storageBucket: "pre-cryptic-hunt.appspot.com",
-    messagingSenderId: "159924093216",
-    appId: "1:159924093216:web:725dfc274f420512c75745",
-    measurementId: "G-3KB6L92MQ8"
-  };
+  <!-- Modal for correct answer -->
+  <div id="modal-overlay" onclick="closeModal()">
+    <div id="modal-content">
+      <p id="modal-message"></p>
+    </div>
+  </div>
 
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
+  authDomain: "pre-cryptic-hunt.firebaseapp.com",
+  databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
+  projectId: "pre-cryptic-hunt",
+  storageBucket: "pre-cryptic-hunt.appspot.com",
+  messagingSenderId: "159924093216",
+  appId: "1:159924093216:web:725dfc274f420512c75745",
+  measurementId: "G-3KB6L92MQ8"
+    };
 
-  const questionsRef = database.ref('/Questions');
-  const answersRef = database.ref('/Answers');
-  const leaderboardRef = database.ref('/Leaderboard');
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-  let currentQuestion = 1;
-  let userScore = 0;
+    const questionsRef = database.ref('/Questions');
+    const answersRef = database.ref('/Answers');
+    const leaderboardRef = database.ref('/Leaderboard');
 
-  function fetchQuestion() {
-    questionsRef.child(`Q${currentQuestion}`).once('value').then(snapshot => {
-      const question = snapshot.val();
-      document.getElementById('question').innerHTML = `<p>${question}</p>`;
-    });
-  }
+    let currentQuestion = 1;
+    let userScore = 0;
 
-  function checkAnswer() {
-    const userAnswer = document.getElementById('user-answer').value.toLowerCase();
+    // Set the end date and time for the quiz
+    const quizEndDate = new Date("2024-01-20T23:59:59");
 
-    answersRef.child(`A${currentQuestion}`).once('value').then(snapshot => {
-      const correctAnswer = snapshot.val().toLowerCase();
+    function fetchQuestion() {
+      questionsRef.child(`Q${currentQuestion}`).once('value').then(snapshot => {
+        const question = snapshot.val();
+        document.getElementById('question').innerHTML = `<p>${question}</p>`;
+      });
+    }
 
-      if (userAnswer === correctAnswer) {
-        alert('Correct!');
-        userScore += 100; // Update points for correct answer
-      } else {
-        alert('Incorrect. Try again.');
-      }
+    function openModal(message) {
+      document.getElementById('modal-overlay').style.display = 'flex';
+      document.getElementById('modal-message').innerHTML = message;
+    }
 
-      currentQuestion++;
+    function closeModal() {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
 
-      if (currentQuestion <= 3) {
-        fetchQuestion();
-      } else {
-        // Quiz completed, submit and update points
-        submitQuiz();
-      }
-    });
-  }
+    function checkAnswer() {
+      const userAnswer = document.getElementById('user-answer').value.toLowerCase();
 
-  function submitQuiz() {
-    // Update points in the database (assuming the user is authenticated)
-    const userId = firebase.auth().currentUser.uid;
+      answersRef.child(`A${currentQuestion}`).once('value').then(snapshot => {
+        const correctAnswer = snapshot.val().toLowerCase();
 
-    leaderboardRef.child(userId).once('value').then(snapshot => {
-      const existingUser = snapshot.val();
+        if (userAnswer === correctAnswer) {
+          // Show correct answer modal
+          openModal('Correct!');
+          userScore += 100; // Update points for correct answer
+          console.log('Updated userScore:', userScore);
 
-      // Check if the user already exists in the leaderboard
-      if (existingUser) {
-        // Update the score if the new score is higher
-        if (userScore > existingUser.score) {
-          leaderboardRef.child(userId).update({ score: userScore });
+          // Move to the next question only if the current answer is correct
+          currentQuestion++;
+
+          if (currentQuestion <= 3) {
+            fetchQuestion();
+          } else {
+            // Quiz completed, submit and update points
+            submitQuiz();
+          }
+        } else {
+          // Show incorrect answer modal
+          openModal('Incorrect. Try again.');
+          // Optionally, you can customize the alert or remove it
         }
+      });
+    }
+
+    function submitQuiz() {
+      // Update points in the database if the user is authenticated
+      const user = firebase.auth().currentUser;
+
+      if (user) {
+        const userId = user.uid;
+
+        leaderboardRef.child(userId).once('value').then(snapshot => {
+          const existingUser = snapshot.val();
+
+          // Check if the user already exists in the leaderboard
+          if (existingUser) {
+            // Update the score if the new score is higher
+            if (userScore > existingUser.score) {
+              leaderboardRef.child(userId).update({
+                score: userScore
+              });
+            }
+          } else {
+            // Add the user to the leaderboard if not already present
+            leaderboardRef.child(userId).set({
+              name: user.displayName || "User",
+              score: userScore
+            });
+          }
+
+          alert(`Quiz completed! Your score: ${userScore}`);
+        });
       } else {
-        // Add the user to the leaderboard if not already present
-        leaderboardRef.child(userId).set({ name: "User", score: userScore });
+        alert("Please sign in to save your score.");
       }
+    }
 
-      alert(`Quiz completed! Your score: ${userScore}`);
-    });
-  }
+    // Clock implementation for remaining time
+    function updateClock() {
+      const now = new Date();
+      const timeRemaining = quizEndDate - now;
 
-  // Start the quiz by fetching the first question
-  fetchQuestion();
-</script>
+      if (timeRemaining > 0) {
+        const remainingHours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        const remainingMinutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const remainingSeconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById('clock-container').innerHTML = `Time Remaining: ${remainingHours}h ${remainingMinutes}m ${remainingSeconds}s`;
+      } else {
+        document.getElementById('clock-container').innerHTML = "Quiz has ended";
+        // Optionally, you can disable the quiz or perform other actions when the time is up.
+      }
+    }
+
+    // Start the quiz by fetching the first question
+    fetchQuestion();
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+  </script>
 
 </body>
+
 </html>
