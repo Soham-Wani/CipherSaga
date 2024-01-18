@@ -10,7 +10,7 @@ The person to solve most levels by the end of the competition wins. In case of a
 # Important Links (will be floated soon)
 - **Event platform:** [https://technocratsgsv.github.io/PreCipherSaga/](https://technocratsgsv.github.io/PreCipherSaga/)
 - **Registeration:** [https://technocratsgsv.github.io/PreCipherSaga/register.html](https://technocratsgsv.github.io/PreCipherSaga/register.html)
-- **Discord server:** Coming Soon!
+- **Discord server:** [https://discord.com/invite/r3xyfRmUk7](https://discord.com/invite/r3xyfRmUk7)
 
 # Rules And Guidelines
 - Make sure you have registered om the platform. Make sure only to use your student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
