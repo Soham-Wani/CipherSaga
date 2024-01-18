@@ -7,7 +7,7 @@ Cryptic hunts are like treasure hunts, but online. They require you to hunt the 
 # How Will Winners Be Decided? 
 The person to solve most levels by the end of the competition wins. In case of a tie, winners are judged based on the time. Early to solve wins. 
 
-# Important Links (will be floated soon)
+# Important Links
 - **Event platform:** [https://technocratsgsv.github.io/PreCipherSaga/](https://technocratsgsv.github.io/PreCipherSaga/)
 - **Registeration:** [https://technocratsgsv.github.io/PreCipherSaga/register.html](https://technocratsgsv.github.io/PreCipherSaga/register.html)
 - **Discord server:** [https://discord.com/invite/r3xyfRmUk7](https://discord.com/invite/r3xyfRmUk7)
