@@ -8,10 +8,9 @@ Cryptic hunts are like treasure hunts, but online. They require you to hunt the 
 The person to solve most levels by the end of the competition wins. In case of a tie, winners are judged based on the time. Early to solve wins. 
 
 # Important Links (will be floated soon)
-- **Event platform:** 
-- **Registeration:** 
-- **Discord server:** 
-- **Rulebook:** 
+- **Event platform:** [https://technocratsgsv.github.io/PreCipherSaga/](https://technocratsgsv.github.io/PreCipherSaga/)
+- **Registeration:** [https://technocratsgsv.github.io/PreCipherSaga/register.html](https://technocratsgsv.github.io/PreCipherSaga/register.html)
+- **Discord server:** Coming Soon!
 
 # Rules And Guidelines
 - Please sign up for an account on the event website at `technocratsgsv.github.io`.
@@ -22,18 +21,35 @@ The person to solve most levels by the end of the competition wins. In case of a
 - Any violation of the rules will lead to disqualification.
 - To report misconduct by any player, please DM the event coordinators.
 - All communication for the event will be done via Discord ONLY. No communication for the event over WhatsApp.
+- Reverse engineering the platform means direct ban from the competition.
+- Decision by organizers is final.
 
 # Learning Resources
-- Cryptic hunts generally revolve around tech, trivia, pop culture, and mostly anything you can find on the internet. Googling is allowed and heavily encouraged, but it won't directly get you the answer in most cases. Think logically, make connections between different parts of levels. Make sure you check the source of the webpage for any hints hidden there. Cryptic hunts are all about connecting the dots and finding the solutions.
-- Keep getting your leads confirmed from the organizers. If you think you've gotten stuck somewhere, ask for personal/public hints. Lead confirmations are short yes or no confirmations that can be asked from event moderators, to confirm whether you're on the right path while solving the question. You can regularly ask the moderators for confirmations that you're progressing correctly and applying the right logic while solving the level.
-- The levels will basically consist of a set of clues, all which link to ONE ANSWER. All levels have different difficulty levels.
-- When you get two or more clues, try to connect them and find an interrelated clue from it. If it looks like a completely random string, try appending it to the end of common URL patterns, like bit.ly/string, youtube.com/watch?v=string etc. This is known as a backlink. For eg: you get harrywilson as a clue, you can use the clue as a backlink on the hunt's site.
-- You will usually find clues in the following places (Look for them carefully, and try discovering more yourself):
-- The hunt's site: Clues are sometimes hidden in the hunt's rules and maybe even in the event descriptions. If you get a blank document as a clue try using ctrita as most of the hunts hide the clue by camouflaging it. The page title. The URL.
-- Focus on every word carefully as almost every hunt uses a lot of wordplay.
-- The source code: Look at the comments (things written under <!--...>). There could be other links inside the code. (This especially helps in cases in which there aren't any on-screen clues.) You can even try using Inspect Element. (Ctrl+Shift+|) You can also try using View Page Source. (Ctrl+Shift+U)
-- Editing the source code and the URL - In many cases, in relatively more difficult levels, sometimes the submit button is hidden. You may even get a 404 error when you enter the level's URL. In that case, you may have to enter another URL / play with the source code a bit to crack this.
-- Audio Files:
+Cryptic hunts generally revolve around tech, trivia, pop culture, and mostly anything you can find on the internet. Googling is allowed and heavily encouraged, but it won't directly get you the answer in most cases. Think logically, make connections between different parts of levels. Make sure you check the source of the webpage for any hints hidden there. Cryptic hunts are all about connecting the dots and finding the solutions.
+
+Keep getting your leads confirmed from the organizers. If you think you've gotten stuck somewhere, ask for personal/public hints. Lead confirmations are short yes or no confirmations that can be asked from event moderators, to confirm whether you're on the right path while solving the question. You can regularly ask the moderators for confirmations that you're progressing correctly and applying the right logic while solving the level.
+
+The levels will basically consist of a set of clues, all which link to ONE ANSWER related to the world of tech. The difficulty increases with each level. Level 0 will have a relatively simpler answer than the rest of them which you can usually solve in under 10 minutes. Level 1 would be more difficult than level 0, Level 2 would be more difficult than 1, and so on.
+
+When you get two or more clues, try to connect them and find an interrelated clue from it. If it looks like a completely random string, try appending it to the end of common URL patterns, like bit.ly/string, youtube.com/watch?v=string etc. This is known as a backlink. For eg: you get harrywilson as a clue, you can use the clue as a backlink on the hunt's site.
+
+
+You will usually find clues in the following places (Look for them carefully, and try discovering more yourself):
+
+The hunt's site:
+Clues are sometimes hidden in the hunt's rules and maybe even in the event descriptions. If you get a blank document as a clue try using ctrita as most of the hunts hide the clue by camouflaging it.
+The page title.
+The URL.
+Focus on every word carefully as almost every hunt uses a lot of wordplay.
+
+The source code:
+Look at the comments (things written under <!--...>).
+There could be other links inside the code. (This especially helps in cases in which there aren't any on-screen clues.)
+You can even try using Inspect Element. (Ctrl+Shift+|)
+You can also try using View Page Source. (Ctrl+Shift+U)
+Editing the source code and the URL - In many cases, in relatively more difficult levels, sometimes the submit button is hidden. You may even get a 404 error when you enter the level's URL. In that case, you may have to enter another URL / play with the source code a bit to crack this.
+
+Audio Files:
 Name of the audio file can be very helpful.
 Duration of the file and the audio content itself is useful.
 Text/images in the spectrogram of the audio can give clues. A spectrogram is a visual representation of the loudness of the frequencies in the audio.
