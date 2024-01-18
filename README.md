@@ -13,16 +13,14 @@ The person to solve most levels by the end of the competition wins. In case of a
 - **Discord server:** Coming Soon!
 
 # Rules And Guidelines
-- Please sign up for an account on the event website at `technocratsgsv.github.io`.
-- Make sure only to use your student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
+- Make sure you have registered om the platform. Make sure only to use your student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
 - All hints & lead confirmations will be done via Discord; the server link will be available above.
-- The server will also contain a general chat for all participants to communicate with each other.
-- Please do not ping other participants for hints/lead confirmations 1:1. You can only ping the event coordinators via Discord or use the general chat.
-- Any violation of the rules will lead to disqualification.
+- The server will also contain a general chat for all participants to communicate with each other. Do not ping other participants for hints/lead confirmations 1:1. You can only ping the event coordinators via Discord or use the general chat.
+- Sharing answers or hints is strictly prohibited among users via any medium. Only organizers hold this right. If found will lead to direct disqualification.
 - To report misconduct by any player, please DM the event coordinators.
 - All communication for the event will be done via Discord ONLY. No communication for the event over WhatsApp.
-- Reverse engineering the platform means direct ban from the competition.
-- Decision by organizers is final.
+- Reverse engineering the platform means direct ban from the competition. Bugs if found should be reported and not exploited. Exploiting a bug also leads to disqualification.
+- Decision by organizers is final and should not be questioned.
 
 # Learning Resources
 Cryptic hunts generally revolve around tech, trivia, pop culture, and mostly anything you can find on the internet. Googling is allowed and heavily encouraged, but it won't directly get you the answer in most cases. Think logically, make connections between different parts of levels. Make sure you check the source of the webpage for any hints hidden there. Cryptic hunts are all about connecting the dots and finding the solutions.
