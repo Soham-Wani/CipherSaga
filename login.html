@@ -9,30 +9,27 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
+      background-color: #0c0c46;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      background-color: #0c0c46;
-      /* Updated body color */
-      color: #fff;
-      /* Light text color */
-      font-family: 'Montserrat', sans-serif;
-      /* Updated font-family */
-      text-align: center;
-      margin: 0;
-      padding: 0;
       flex-direction: column;
-      /* Stack items vertically */
+      min-height: 100vh;
     }
 
     button {
       background-color: #1a5276;
-      /* Dark blue shade for buttons */
       color: #fff;
-      /* Light text color for buttons */
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -40,9 +37,7 @@
       cursor: pointer;
       display: none;
       border-radius: 12px;
-      /* Added border radius */
       font-family: 'Montserrat', sans-serif;
-      /* Updated font-family */
     }
 
     #signInButton {
@@ -52,15 +47,15 @@
 </head>
 
 <body>
+  <div>
+    <!-- Sign In Button -->
+    <button id="signInButton">Sign In with Google</button>
 
-  <!-- Sign In Button -->
-  <button id="signInButton">Sign In with Google</button>
-
-  <!-- Navigation Buttons -->
-  <button id="quizButton">Go to Quiz</button>
-  <button id="leaderboardButton">Go to Leaderboard</button>
-  <button id="signOutButton">Sign Out</button>
-
+    <!-- Navigation Buttons -->
+    <button id="quizButton">Go to Quiz</button>
+    <button id="leaderboardButton">Go to Leaderboard</button>
+    <button id="signOutButton">Sign Out</button>
+  </div>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
@@ -123,26 +118,26 @@
       const email = user.email;
       if (email.endsWith('@gsv.ac.in')) {
         // User signed in with allowed domain
-        // Check if /users node exists in the database
-        const usersRef = database.ref('/users');
-        usersRef.once('value')
-          .then(snapshot => {
-            if (!snapshot.exists()) {
-              // /users node does not exist, create it
-              usersRef.set({
-                [user.uid]: 0
-              });
-            }
+        // Create /users/uid node with a points key and default value 0
+        const usersRef = database.ref('/users/' + user.uid);
+        usersRef.transaction(function (currentData) {
+          if (!currentData) {
+            // If /users/uid does not exist, create it with a points key and default value 0
+            return {
+              points: 0
+            };
+          }
+        })
+          .then(() => {
+            // Hide Sign In Button, Show Navigation Buttons
+            document.getElementById('signInButton').style.display = 'none';
+            document.getElementById('quizButton').style.display = 'block';
+            document.getElementById('leaderboardButton').style.display = 'block';
+            document.getElementById('signOutButton').style.display = 'block';
           })
           .catch(error => {
-            console.error("Error checking /users node:", error);
+            console.error("Error creating /users/uid node:", error);
           });
-
-        // Hide Sign In Button, Show Navigation Buttons
-        document.getElementById('signInButton').style.display = 'none';
-        document.getElementById('quizButton').style.display = 'block';
-        document.getElementById('leaderboardButton').style.display = 'block';
-        document.getElementById('signOutButton').style.display = 'block';
       } else {
         // User signed in with a non-allowed domain, sign out
         auth.signOut();
