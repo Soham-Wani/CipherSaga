@@ -1,75 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
-<style>
-    body {
-        background-color:#8f2222
-    }
-</style>
-    <script>
-        const firebaseConfig = {
-          apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
-          authDomain: "pre-cryptic-hunt.firebaseapp.com",
-          databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
-          projectId: "pre-cryptic-hunt",
-          storageBucket: "pre-cryptic-hunt.appspot.com",
-          messagingSenderId: "159924093216",
-          appId: "1:159924093216:web:725dfc274f420512c75745",
-          measurementId: "G-3KB6L92MQ8"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        const leaderboardRef = database.ref('/Leaderboard');
-leaderboardRef.orderByChild('score').limitToLast(10).on('value', (snapshot) => {
-  console.log('Leaderboard data updated:', snapshot.val());
-  // ... rest of the code to update the UI
-});
-
-          leaderboardList.innerHTML = "";
-
-          snapshot.forEach((childSnapshot) => {
-            const user = childSnapshot.val();
-            const listItem = document.createElement('li');
-            listItem.textContent = `${user.name}: ${user.score} points`;
-            leaderboardList.appendChild(listItem);
-          });
-        
-    </script>
+    <title>Leaderboard</title>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <style>
         body {
+            background-color: #0c0c46;
+            color: white;
             font-family: Arial, sans-serif;
+        }
+
+        h2 {
             text-align: center;
-            margin: 20px;
+            color: #f2f2f2;
         }
 
-        h1 {
-            color: #333;
+        table {
+            width: 80%;
+            margin: auto;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #ddd;
+            color: white;
         }
 
-        #leaderboard {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #leaderboard li {
-            background-color: #f4f4f4;
+        th,
+        td {
+            text-align: left;
             padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #0c0c46;
         }
     </style>
-    <title>Quiz Leaderboard</title>
 </head>
+
 <body>
-    <h1>Quiz Leaderboard</h1>
-    <ul id="leaderboard"></ul>
+
+    <h2>Leaderboard</h2>
+
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Google Account Name</th>
+            <th>Points</th>
+        </tr>
+
+        <script>
+            // Initialize Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
+                authDomain: "usual-queries-login.firebaseapp.com",
+                databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
+                projectId: "usual-queries-login",
+                storageBucket: "usual-queries-login.appspot.com",
+                messagingSenderId: "808817795355",
+                appId: "1:808817795355:web:6a2454e71cdce466f773be",
+                measurementId: "G-T9V22WWTBK"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+
+            // Reference to the 'users' node in the Firebase database
+            var usersRef = firebase.database().ref('users');
+
+            // Fetch user data from Firebase
+            usersRef.once('value').then(function (snapshot) {
+                // Convert the snapshot to an array
+                var users = Object.entries(snapshot.val());
+
+                // Sort the array based on points and latest value
+                users.sort(function (a, b) {
+                    if (b[1].points !== a[1].points) {
+                        return b[1].points - a[1].points; // Sort by points descending
+                    } else {
+                        return a[1].latest - b[1].latest; // If points are the same, sort by latest descending
+                    }
+                });
+
+                // Display the leaderboard
+                var rank = 1;
+
+                users.forEach(function (user) {
+                    var userId = user[0];
+                    var points = user[1].points;
+
+                    // Get the user name from the database
+                    var userNameRef = firebase.database().ref('users/' + userId + '/name');
+                    userNameRef.once('value').then(function (nameSnapshot) {
+                        var userName = nameSnapshot.val() || 'Unknown';
+
+                        var row = "<tr><td>" + rank + "</td><td>" + userName + "</td><td>" + points + "</td></tr>";
+                        document.querySelector('table').insertAdjacentHTML('beforeend', row);
+                        rank++;
+                    }).catch(function (error) {
+                        console.error("Error fetching user name:", error);
+                    });
+                });
+            });
+        </script>
+    </table>
+
 </body>
+
 </html>
