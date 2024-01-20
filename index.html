@@ -2,147 +2,253 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PreCipherSaga Quiz</title>
-  <!-- Include Firebase scripts without module syntax -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
-  <style>
-    /* Your existing CSS styles here */
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #0c0c46;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        #levelTitle {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #questionText {
+            margin-bottom: 20px;
+        }
+
+        #imageDisplay {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #fileButton {
+            background-color: #1a5276;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        #answerInput {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #1a5276;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #submitButton {
+            background-color: #1a5276;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        #submitButton:disabled {
+            background-color: #7b8a8b;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1a5276;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 999;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div id="question-container">
-    <div id="question"></div>
-    <div id="image-container"></div>
-    <div>
-      <label>Your Answer: <input type="text" id="user-answer"></label>
-    </div>
-    <button onclick="checkAnswer()">Submit Answer</button>
-    <button onclick="openFileLink()">Open File Link</button>
-    <button onclick="signOut()">Sign Out</button>
-  </div>
+    <div id="levelTitle"></div>
+    <div id="questionText"></div>
+    <img id="imageDisplay" alt="Question Image">
+    <button id="fileButton" onclick="openFile()">View File</button>
+    <input type="text" id="answerInput" placeholder="Enter your answer">
+    <button id="submitButton" onclick="submitAnswer()">Submit</button>
 
-  <script>
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCpVA5MZNF3CIfISIfJdrDGnFpYYFuiwZM",
-      authDomain: "pre-cryptic-hunt.firebaseapp.com",
-      databaseURL: "https://pre-cryptic-hunt-default-rtdb.firebaseio.com",
-      projectId: "pre-cryptic-hunt",
-      storageBucket: "pre-cryptic-hunt.appspot.com",
-      messagingSenderId: "159924093216",
-      appId: "1:159924093216:web:725dfc274f420512c75745",
-      measurementId: "G-3KB6L92MQ8"
-    };
+    <div id="modal" class="modal"></div>
 
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
+            authDomain: "usual-queries-login.firebaseapp.com",
+            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
+            projectId: "usual-queries-login",
+            storageBucket: "usual-queries-login.appspot.com",
+            messagingSenderId: "808817795355",
+            appId: "1:808817795355:web:6a2454e71cdce466f773be",
+            measurementId: "G-T9V22WWTBK"
+        };
 
-    const questionRef = database.ref('/Question/Q1');
-    const answerRef = database.ref('/Question/Q1/answer');
-    const fileLinkRef = database.ref('/Question/Q1/File');
-    
-    // Get a reference to the "Users" node
-    const usersRef = database.ref('/Users');
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
 
-    // Check if the user is authenticated
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, fetch the question
-        fetchQuestion();
-      } else {
-        // User is not signed in, redirect to login page
-        redirectToLogin();
-      }
-    });
-
-    function fetchQuestion() {
-      questionRef.once('value').then(snapshot => {
-        const questionData = snapshot.val();
-
-        // Display the question text
-        document.getElementById('question').innerHTML = `<p>${questionData.Text}</p>`;
-
-        // Display the image if available
-        const imageContainer = document.getElementById('image-container');
-        if (questionData.image) {
-          imageContainer.innerHTML = `<img src="${questionData.image}" alt="Question Image">`;
-        } else {
-          imageContainer.innerHTML = ''; // Clear the container if no image
-        }
-      });
-    }
-
-    function checkAnswer() {
-      const userAnswer = cleanString(document.getElementById('user-answer').value);
-      
-      answerRef.once('value').then(snapshot => {
-        const correctAnswer = cleanString(snapshot.val());
-
-        if (userAnswer === correctAnswer) {
-          // If the answer is correct, update the user's score by 100 points
-          updateScore();
-          alert('Correct Answer!');
-        } else {
-          alert('Incorrect Answer. Try again.');
-        }
-      });
-    }
-
-    function updateScore() {
-      // Check if the user is authenticated
-      const user = firebase.auth().currentUser;
-
-      if (user) {
-        const userId = user.uid;
-
-        // Get the current score from the Users node
-        usersRef.child(userId).once('value').then(snapshot => {
-          const currentScore = snapshot.val().score || 0;
-
-          // Update the score by adding 100 points
-          usersRef.child(userId).update({
-            score: currentScore + 100
-          });
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = 'hi.html';
+            } else {
+                showQuizContent(user);
+            }
         });
-      }
-    }
 
-    function openFileLink() {
-      fileLinkRef.once('value').then(snapshot => {
-        const fileLink = snapshot.val();
+        function showQuizContent(user) {
+            const userRef = database.ref(`/users/${user.uid}/points`);
+            userRef.once('value')
+                .then(snapshot => {
+                    const userPoints = snapshot.val() || 0;
+                    const level = Math.floor(userPoints / 100) + 1;
 
-        // Open the link in a new tab
-        window.open(fileLink, '_blank');
-      });
-    }
+                    document.getElementById('levelTitle').innerText = `Level ${level}`;
 
-    function redirectToLogin() {
-      // Redirect to the login page
-      window.location.href = "login.html";
-    }
+                    const questionRef = database.ref(`/questions/${level}`);
+                    questionRef.once('value')
+                        .then(snapshot => {
+                            const questionData = snapshot.val();
 
-    function signOut() {
-      // Sign out the user
-      firebase.auth().signOut().then(() => {
-        alert('User signed out.');
-        redirectToLogin();
-      }).catch((error) => {
-        console.error('Sign out error:', error);
-      });
-    }
+                            if (questionData) {
+                                document.getElementById('questionText').innerText = questionData.text;
 
-    // Remove special characters and extra spaces from a string
-    function cleanString(str) {
-      return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '').trim();
-    }
+                                if (questionData.image) {
+                                    document.getElementById('imageDisplay').src = questionData.image;
+                                    document.getElementById('imageDisplay').style.display = 'block';
+                                } else {
+                                    document.getElementById('imageDisplay').style.display = 'none';
+                                }
 
-  </script>
+                                if (questionData.file) {
+                                    document.getElementById('fileButton').style.display = 'block';
+                                    document.getElementById('fileButton').setAttribute('data-file', questionData.file);
+                                } else {
+                                    document.getElementById('fileButton').style.display = 'none';
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error retrieving question:", error);
+                        });
+                })
+                .catch(error => {
+                    console.error("Error retrieving user points:", error);
+                });
+        }
+
+        function openFile() {
+            const fileUrl = document.getElementById('fileButton').getAttribute('data-file');
+            if (fileUrl) {
+                window.open(fileUrl, '_blank');
+            }
+        }
+
+        function submitAnswer() {
+            const user = auth.currentUser;
+            const userRef = database.ref(`/users/${user.uid}`);
+            userRef.once('value')
+                .then(snapshot => {
+                    const userData = snapshot.val();
+                    const userPoints = userData.points || 0;
+                    const level = Math.floor(userPoints / 100) + 1;
+                    const answerInput = document.getElementById('answerInput').value.trim().toLowerCase();
+
+                    if (answerInput) {
+                        document.getElementById('submitButton').disabled = true;
+
+                        const questionRef = database.ref(`/questions/${level}`);
+                        questionRef.once('value')
+                            .then(snapshot => {
+                                const questionData = snapshot.val();
+
+                                if (questionData && questionData.ans) {
+                                    const correctAnswer = questionData.ans.trim().toLowerCase();
+
+                                    if (answerInput === correctAnswer) {
+                                        const newPoints = userPoints + 100;
+
+                                        // Update user points
+                                        userRef.update({
+                                            points: newPoints,
+                                            [`latest`]: firebase.database.ServerValue.TIMESTAMP
+                                        });
+
+                                        // Update user level timestamp
+                                        userRef.child(level.toString()).set(firebase.database.ServerValue.TIMESTAMP);
+
+                                        showSuccessModal();
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 3000);
+                                    } else {
+                                        showErrorModal();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error retrieving question:", error);
+                                showErrorModal();
+                            })
+                            .finally(() => {
+                                document.getElementById('submitButton').disabled = false;
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error retrieving user data:", error);
+                });
+        }
+
+        function showSuccessModal() {
+            const modal = document.getElementById('modal');
+            modal.innerText = 'Congrats! Right answer.';
+            modal.style.backgroundColor = '#28a745';
+            modal.style.display = 'block';
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 3000);
+        }
+
+        function showErrorModal() {
+            const modal = document.getElementById('modal');
+            modal.innerText = 'Sorry! Wrong answer.';
+            modal.style.backgroundColor = '#dc3545';
+            modal.style.display = 'block';
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 
 </body>
 
