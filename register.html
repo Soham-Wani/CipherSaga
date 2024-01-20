@@ -1,122 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreCipherSaga Login</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Authentication</title>
+  <!-- Add Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0c0c46;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    button {
+      background-color: #1a5276;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+      display: none;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    #signInButton {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
-    <button id="signInButton">Create Account / Sign In</button>
+  <div>
+    <!-- Sign In Button -->
+    <button id="signInButton">Sign In with Google</button>
+
+    <!-- Navigation Buttons -->
+    <button id="quizButton">Go to Quiz</button>
+    <button id="leaderboardButton">Go to Leaderboard</button>
     <button id="signOutButton">Sign Out</button>
+  </div>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
+      authDomain: "usual-queries-login.firebaseapp.com",
+      databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
+      projectId: "usual-queries-login",
+      storageBucket: "usual-queries-login.appspot.com",
+      messagingSenderId: "808817795355",
+      appId: "1:808817795355:web:6a2454e71cdce466f773be",
+      measurementId: "G-T9V22WWTBK"
+    };
 
-    <div id="message">
-        <p>You have signed in as <span id="userName"></span> with the email <span id="userEmail"></span> </p>
-    </div>
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-        import { getDatabase, ref, set, child, get } from  "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+    // Check if user is already signed in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in
+        handleSignIn(user);
+      } else {
+        // No user is signed in
+        handleSignOut();
+      }
+    });
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyD6AZgQ3G8UTy4WoavhyCfJ95xgTEcWxJ0",
-            authDomain: "preciphersaga-fb.firebaseapp.com",
-            projectId: "preciphersaga-fb",
-            storageBucket: "preciphersaga-fb.appspot.com",
-            messagingSenderId: "563353573944",
-            appId: "1:563353573944:web:d23365fc2ab8b49fd664cd",
-            measurementId: "G-9W5ECCZ5LC"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-        const db = getDatabase();
-        const allowedDomain = "gsv.ac.in";
-
-        const signInButton = document.getElementById("signInButton");
-        const signOutButton = document.getElementById("signOutButton");
-        const message = document.getElementById("message");
-        const userNameSpan = document.getElementById("userName");
-        const userEmailSpan = document.getElementById("userEmail");
-
-        signOutButton.style.display = "none";
-        message.style.display = "none";
-
-        const userSignIn = async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-
-                const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
-                if (userEmailDomain === allowedDomain) {
-                    console.log(user);
-                    RegisterUser(); // Call RegisterUser after successful sign-in
-                } else {
-                    // If the email domain is not allowed, sign the user out
-                    signOut(auth).then(() => {
-                        alert("You must sign in with your college email address.");
-                    }).catch((error) => {});
-                }
-            } catch (error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.error("Sign-in error:", errorCode, errorMessage);
-            }
-        };
-
-        const userSignOut = async () => {
-            signOut(auth).then(() => {
-                alert("You have signed out successfully!");
-            }).catch((error) => {});
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const userEmailDomain = user.email.split('@')[1]; // Extract domain from email
-                if (userEmailDomain === allowedDomain) {
-                    signOutButton.style.display = "block";
-                    message.style.display = "block";
-                } else {
-                    // If the email domain is not allowed, sign the user out
-                    signOut(auth).then(() => {
-                        alert("You must sign in with your college email address.");
-                    }).catch((error) => {});
-                }
-            } else {
-                signOutButton.style.display = "none";
-                message.style.display = "none";
-            }
+    // Sign In Button Click Event
+    document.getElementById('signInButton').addEventListener('click', () => {
+      // Google Sign-In with Popup
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          handleSignIn(result.user);
+        })
+        .catch(error => {
+          console.error("Error signing in:", error);
         });
+    });
 
-        signInButton.addEventListener('click', userSignIn);
-        signOutButton.addEventListener('click', userSignOut);
+    // Sign Out Button Click Event
+    document.getElementById('signOutButton').addEventListener('click', () => {
+      // Sign out the user
+      auth.signOut();
+    });
 
-        //----------------------------------------------------Register to firebase database-------------------------------------------------
-        function RegisterUser() {
-            const dbRef = ref(db);
-            const user = auth.currentUser;
+    // Quiz Button Click Event
+    document.getElementById('quizButton').addEventListener('click', () => {
+      window.location.href = 'URL_TO_QUIZ'; // Replace with the actual URL
+    });
 
-            if (user) {
-                get(child(dbRef, "UsersList/" + user.uid)).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        alert("Account Already Exists!");
-                    } else {
-                        // Initialize score to 0
-                        set(ref(db, "UsersList/" + user.uid), {
-                            email: user.email,
-                            name: user.displayName,
-                            score: 0, // Initialize score to 0
-                        }).catch((error) => {
-                            alert("Error: " + error);
-                        });
-                    }
-                });
-            } else {
-                alert("User is not signed in.");
-            }
-        }
-    </script>
+    // Leaderboard Button Click Event
+    document.getElementById('leaderboardButton').addEventListener('click', () => {
+      window.location.href = 'URL_TO_LEADERBOARD'; // Replace with the actual URL
+    });
+
+    function handleSignIn(user) {
+      // Check if the email is from the gsv.ac.in domain
+      const email = user.email;
+      if (email.endsWith('@gsv.ac.in')) {
+        // User signed in with allowed domain
+        // Create /users/uid node with points and name
+        const usersRef = database.ref('/users/' + user.uid);
+        usersRef.transaction(function (currentData) {
+          if (!currentData) {
+            // If /users/uid does not exist, create it with points, name, and default values
+            return {
+              points: 0,
+              name: user.displayName || 'Unknown' // Use user's display name or 'Unknown' if not available
+            };
+          }
+        })
+          .then(() => {
+            // Hide Sign In Button, Show Navigation Buttons
+            document.getElementById('signInButton').style.display = 'none';
+            document.getElementById('quizButton').style.display = 'block';
+            document.getElementById('leaderboardButton').style.display = 'block';
+            document.getElementById('signOutButton').style.display = 'block';
+          })
+          .catch(error => {
+            console.error("Error creating /users/uid node:", error);
+          });
+      } else {
+        // User signed in with a non-allowed domain, sign out
+        auth.signOut();
+        alert('Only gsv.ac.in domain accounts are allowed.');
+      }
+    }
+
+    function handleSignOut() {
+      // Show Sign In Button, Hide Navigation Buttons
+      document.getElementById('signInButton').style.display = 'block';
+      document.getElementById('quizButton').style.display = 'none';
+      document.getElementById('leaderboardButton').style.display = 'none';
+      document.getElementById('signOutButton').style.display = 'none';
+    }
+  </script>
 </body>
+
 </html>
