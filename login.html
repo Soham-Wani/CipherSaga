@@ -118,13 +118,14 @@
       const email = user.email;
       if (email.endsWith('@gsv.ac.in')) {
         // User signed in with allowed domain
-        // Create /users/uid node with a points key and default value 0
+        // Create /users/uid node with points and name
         const usersRef = database.ref('/users/' + user.uid);
         usersRef.transaction(function (currentData) {
           if (!currentData) {
-            // If /users/uid does not exist, create it with a points key and default value 0
+            // If /users/uid does not exist, create it with points, name, and default values
             return {
-              points: 0
+              points: 0,
+              name: user.displayName || 'Unknown' // Use user's display name or 'Unknown' if not available
             };
           }
         })
