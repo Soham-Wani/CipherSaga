@@ -9,108 +9,202 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             background-color: #0c0c46;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        h2 {
-            text-align: center;
-            color: #f2f2f2;
+        #navbar {
+            display: flex;
+            background-color: #0c0c46;
+            padding: 10px;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-right: 10px;
+        }
+
+        #logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        #brand-name {
+            color: #fff;
+            font-size: 22px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        #navbar-buttons {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        #navbar-buttons button {
+            background-color: #00f;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #navbar-buttons button:hover {
+            background-color: #000;
+        }
+
+        #navbar-buttons #leaderboard-button {
+            margin-left: 0;
         }
 
         table {
             width: 80%;
             margin: auto;
-            margin-top: 20px;
             border-collapse: collapse;
             border-spacing: 0;
-            border: 1px solid #ddd;
-            color: white;
         }
 
         th,
         td {
             text-align: left;
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #dddddd10;
         }
 
         th {
-            background-color: #f2f2f2;
-            color: #0c0c46;
+            font-weight:bold;
+            font-size: 20px;
+            background-color: #0c0c66;
+            color: #ddd;
         }
     </style>
 </head>
 
 <body>
 
-    <h2>Leaderboard</h2>
+    <div id="navbar">
+        <div id="logo-container">
+            <div id="logo">
+                <!-- Replace the image source with your logo -->
+                <img src="" alt="Logo">
+            </div>
+            <div id="brand-name">PreCipherSaga</div>
+        </div>
+        <div id="navbar-buttons">
+            <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
+        </div>
+    </div>
 
-    <table>
+    <table id="content">
         <tr>
             <th>Rank</th>
-            <th>Google Account Name</th>
+            <th>User</th>
             <th>Points</th>
         </tr>
+    </table>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
+            authDomain: "usual-queries-login.firebaseapp.com",
+            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
+            projectId: "usual-queries-login",
+            storageBucket: "usual-queries-login.appspot.com",
+            messagingSenderId: "808817795355",
+            appId: "1:808817795355:web:6a2454e71cdce466f773be",
+            measurementId: "G-T9V22WWTBK"
+        };
 
-        <script>
-            // Initialize Firebase
-            const firebaseConfig = {
-                apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
-                authDomain: "usual-queries-login.firebaseapp.com",
-                databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
-                projectId: "usual-queries-login",
-                storageBucket: "usual-queries-login.appspot.com",
-                messagingSenderId: "808817795355",
-                appId: "1:808817795355:web:6a2454e71cdce466f773be",
-                measurementId: "G-T9V22WWTBK"
-            };
+        firebase.initializeApp(firebaseConfig);
 
-            firebase.initializeApp(firebaseConfig);
+        // Reference to the 'users' node in the Firebase database
+        var usersRef = firebase.database().ref('users');
 
-            // Reference to the 'users' node in the Firebase database
-            var usersRef = firebase.database().ref('users');
+        // Fetch user data from Firebase
+        usersRef.once('value').then(function (snapshot) {
+            // Convert the snapshot to an array
+            var users = Object.entries(snapshot.val());
 
-            // Fetch user data from Firebase
-            usersRef.once('value').then(function (snapshot) {
-                // Convert the snapshot to an array
-                var users = Object.entries(snapshot.val());
+            // Sort the array based on points and latest value
+            users.sort(function (a, b) {
+                if (b[1].points !== a[1].points) {
+                    return b[1].points - a[1].points; // Sort by points descending
+                } else {
+                    return a[1].latest - b[1].latest; // If points are the same, sort by latest descending
+                }
+            });
 
-                // Sort the array based on points and latest value
-                users.sort(function (a, b) {
-                    if (b[1].points !== a[1].points) {
-                        return b[1].points - a[1].points; // Sort by points descending
-                    } else {
-                        return a[1].latest - b[1].latest; // If points are the same, sort by latest descending
-                    }
-                });
+            // Display the leaderboard
+            var rank = 1;
 
-                // Display the leaderboard
-                var rank = 1;
+            users.forEach(function (user) {
+                var userId = user[0];
+                var points = user[1].points;
 
-                users.forEach(function (user) {
-                    var userId = user[0];
-                    var points = user[1].points;
+                // Get the user name from the database
+                var userNameRef = firebase.database().ref('users/' + userId + '/name');
+                userNameRef.once('value').then(function (nameSnapshot) {
+                    var userName = nameSnapshot.val() || 'Unknown';
 
-                    // Get the user name from the database
-                    var userNameRef = firebase.database().ref('users/' + userId + '/name');
-                    userNameRef.once('value').then(function (nameSnapshot) {
-                        var userName = nameSnapshot.val() || 'Unknown';
-
-                        var row = "<tr><td>" + rank + "</td><td>" + userName + "</td><td>" + points + "</td></tr>";
-                        document.querySelector('table').insertAdjacentHTML('beforeend', row);
-                        rank++;
-                    }).catch(function (error) {
-                        console.error("Error fetching user name:", error);
-                    });
+                    var row = "<tr><td>" + rank + "</td><td>" + userName + "</td><td>" + points + "</td></tr>";
+                    document.querySelector('table').insertAdjacentHTML('beforeend', row);
+                    rank++;
+                }).catch(function (error) {
+                    console.error("Error fetching user name:", error);
                 });
             });
-        </script>
-    </table>
+        });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            // Calculate the height of the navbar
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+
+            // Set margin-top for the content dynamically
+            document.getElementById('content').style.marginTop = navbarHeight + 'px';
+        });
+
+        function openLeaderboard() {
+            // Redirect to the leaderboard.html page
+            window.location.href = 'leaderboard.html';
+        }
+
+        function signOut() {
+            // Add your logic to sign out
+            window.location.href = 'register.html';
+        }
+
+        function contri() {
+            window.location.href = 'credits.html';
+        }
+    </script>
 </body>
 
 </html>
