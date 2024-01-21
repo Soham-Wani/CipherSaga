@@ -10,110 +10,133 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-body {
-    background-color: #0c0c46;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.button-container {
-    position: relative;
-}
-
-.button-frame {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 2px solid #1a5276;
-    border-radius: 12px;
-    pointer-events: none;
-}
-
-button {
-    background-color: #1a5276;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 12px;
-    font-family: 'Montserrat', sans-serif;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-
-    &:hover {
-        background-color: #155a8a;
-        transform: scale(1.05);
+    body {
+      background-color: #0c0c46;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
     }
-}
 
-#signInButton {
-    display: block;
-}
-h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--main-text-color, #e2e2e2);
-    text-shadow: 2px 2px 4px rgba(1, 45, 54, 0.3);
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-
-    &:hover {
-        color: var(--hover-text-color, #00f0f8);
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    #content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
     }
-}
-/* Circular Frame Styling */
-.circular-frame {
-            width: 60px; /* Adjust the size of the frame */
-            height: 60px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 10px; /* Adjust the margin as needed */
-        }
 
-        /* Logo Styling */
-        .circular-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+    .button {
+      background-color: #1a5276;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+      display: none;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+    }
 
+    #signInButton {
+      display: block;
+    }
 
+    #navbar {
+      display: flex;
+      background-color: #0c0c46;
+      padding: 10px;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    #logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    #logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      margin-right: 10px;
+    }
+
+    #logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    #brand-name {
+      color: #fff;
+      font-size: 22px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    #navbar-buttons {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+    }
+
+    #navbar-buttons button {
+      background-color: #00f;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #navbar-buttons button:hover {
+      background-color: #000;
+    }
+
+    #navbar-buttons #leaderboard-button {
+      margin-left: 0;
+    }
   </style>
 </head>
 
 <body>
-    <!--<div class="circular-frame">
-        <img src="logo.jpg" alt="Logo">
-    </div>-->
-  <div>
-    <h1>PreCipherSaga</h1>
+  <div id="navbar">
+    <div id="logo-container">
+      <div id="logo">
+        <!-- Replace the image source with your logo -->
+        <img src="" alt="Logo">
+      </div>
+      <div id="brand-name">PreCipherSaga</div>
+    </div>
+    <div id="navbar-buttons">
+      <button onclick="play()"><i class="fa-solid fa-play"></i></button>
+      <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+      <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+      <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
+    </div>
+  </div>
+  <div id="content">
     <!-- Sign In Button -->
-    <button id="signInButton">Sign In with Google</button>
-  
-    
+    <button class="button" id="signInButton">Sign In with Google</button>
+
     <!-- Navigation Buttons -->
-    <button id="quizButton">Go to Quiz</button>
-    <button id="leaderboardButton">Go to Leaderboard</button>
-    <button id="signOutButton">Sign Out</button>
+    <button class="button" id="quizButton">Go to Quiz</button>
+    <button class="button" id="leaderboardButton">Go to Leaderboard</button>
+    <button class="button" id="signOutButton">Sign Out</button>
   </div>
   <script>
     const firebaseConfig = {
@@ -164,12 +187,12 @@ h1 {
 
     // Quiz Button Click Event
     document.getElementById('quizButton').addEventListener('click', () => {
-      window.location.href = 'index.html'; // Replace with the actual URL
+      window.location.href = 'URL_TO_QUIZ'; // Replace with the actual URL
     });
 
     // Leaderboard Button Click Event
     document.getElementById('leaderboardButton').addEventListener('click', () => {
-      window.location.href = 'leaderboard.html'; // Replace with the actual URL
+      window.location.href = 'URL_TO_LEADERBOARD'; // Replace with the actual URL
     });
 
     function handleSignIn(user) {
