@@ -9,142 +9,138 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        
         body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    min-height: 100vh;
-    background-color: #380486;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+            background-color: #0c0c46;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
 
-#navbar {
-    display: flex;
-    background-color: #333;
-    padding: 10px;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-}
+        #navbar {
+            display: flex;
+            background-color: #0c0c46;
+            padding: 10px;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
 
-#logo-container {
-    display: flex;
-    align-items: center;
-}
+        #logo-container {
+            display: flex;
+            align-items: center;
+        }
 
-#logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #fff;
-    margin-right: 10px;
-}
+        #logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-right: 10px;
+        }
 
-#logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
+        #logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
 
-#brand-name {
-    color: #fff;
-    font-size: 24px;
-}
+        #brand-name {
+            color: #fff;
+            font-size: 22px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-#navbar-buttons {
-    display: flex;
-    align-items: center;
-}
+        #navbar-buttons {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+        }
 
-#navbar-buttons button {
-    background-color: #555;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
-}
+        #navbar-buttons button {
+            background-color: #00f;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
 
-#navbar-buttons button:hover {
-    background-color: #777;
-}
+        #navbar-buttons button:hover {
+            background-color: #000;
+        }
 
-#navbar-buttons #leaderboard-button {
-    margin-left: 0;
-}
+        #navbar-buttons #leaderboard-button {
+            margin-left: 0;
+        }
 
-#content {
-    margin-top: 20px;
-    padding: 20px;
-}
+        #questionText {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-#levelTitle,
-#questionText {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+        #imageDisplay {
+            max-width: 30vw;
+            margin-bottom: 20px;
+            border-radius:7px;
+        }
 
-#imageDisplay {
-    max-width: 100%;
-    margin-bottom: 20px;
-}
+        #fileButton,
+        #answerInput,
+        #submitButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 7px;
+        }
 
-#fileButton,
-#answerInput,
-#submitButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 12px;
-}
+        #fileButton {
+            background-color: #00f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
 
-#fileButton {
-    background-color: #1a5276;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
+        #answerInput {
+            border: 1px solid #000;
+            margin-bottom: 20px;
+        }
 
-#answerInput {
-    border: 1px solid #1a5276;
-    margin-bottom: 20px;
-}
+        #submitButton {
+            background-color: #00f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
 
-#submitButton {
-    background-color: #1a5276;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
+        #submitButton:disabled {
+            background-color: #0000ff60;
+            cursor: not-allowed;
+        }
 
-#submitButton:disabled {
-    background-color: #7b8a8b;
-    cursor: not-allowed;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #1a5276;
-    color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 999;
-}
-
-
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1a5276;
+            color: #fff;
+            padding: 10px;
+            border-radius: 7px;
+            z-index: 999;
+        }
     </style>
 </head>
 
@@ -159,18 +155,18 @@
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
-            <button onclick="openLeaderboard()">Leaderboard</button>
-            <button onclick="signOut()">Home</button>
+            <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
         </div>
     </div>
-
-    <div id="levelTitle"></div>
-    <div id="questionText"></div>
-    <img id="imageDisplay" alt="Question Image">
-    <button id="fileButton" onclick="openFile()">View File</button>
-    <input type="text" id="answerInput" placeholder="Enter your answer">
-    <button id="submitButton" onclick="submitAnswer()">Submit</button>
-
+    <div id="content">
+        <h1 id="levelTitle"></h1>
+        <div id="questionText"></div>
+        <img id="imageDisplay" alt="Question Image">
+        <button id="fileButton" onclick="openFile()">View File</button>
+        <input type="text" id="answerInput" placeholder="Enter your answer">
+        <button id="submitButton" onclick="submitAnswer()">Submit</button>
+    </div>
     <div id="modal" class="modal"></div>
 
     <script>
@@ -324,14 +320,23 @@
         }
 
         function openLeaderboard() {
-        // Redirect to the leaderboard.html page
-        window.location.href = 'leaderboard.html';
-    }
+            // Redirect to the leaderboard.html page
+            window.location.href = 'leaderboard.html';
+        }
 
         function signOut() {
             // Add your logic to sign out
             window.location.href = 'register.html';
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Calculate the height of the navbar
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+
+            // Set margin-top for the content dynamically
+            document.getElementById('content').style.marginTop = navbarHeight + 'px';
+        });
+
     </script>
 
 </body>
