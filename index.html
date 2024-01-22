@@ -2,348 +2,253 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
-    <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            background-color: #0c0c46;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Authentication</title>
+  <!-- Add Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      background-color: #0c0c46;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-        #navbar {
-            display: flex;
-            background-color: #0c0c46;
-            padding: 10px;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
+    #content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        #logo-container {
-            display: flex;
-            align-items: center;
-        }
+    .button {
+      background-color: #1a5276;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+      display: none;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+    }
 
-        #logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #fff;
-            margin-right: 10px;
-        }
+    #signInButton {
+      display: block;
+    }
 
-        #logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+    #navbar {
+      display: flex;
+      background-color: #0c0c46;
+      padding: 10px;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
 
-        #brand-name {
-            color: #fff;
-            font-size: 22px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+    #logo-container {
+      display: flex;
+      align-items: center;
+    }
 
-        #navbar-buttons {
-            display: flex;
-            align-items: center;
-            font-size: 22px;
-        }
+    #logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      margin-right: 10px;
+    }
 
-        #navbar-buttons button {
-            background-color: #00f;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
+    #logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
 
-        #navbar-buttons button:hover {
-            background-color: #000;
-        }
+    #brand-name {
+      color: #fff;
+      font-size: 22px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
 
-        #navbar-buttons #leaderboard-button {
-            margin-left: 0;
-        }
+    #navbar-buttons {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+    }
 
-        #questionText {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+    #navbar-buttons button {
+      background-color: #00f;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
 
-        #imageDisplay {
-            max-width: 30vw;
-            margin-bottom: 20px;
-            border-radius: 7px;
-        }
+    #navbar-buttons button:hover {
+      background-color: #000;
+    }
 
-        #fileButton,
-        #answerInput,
-        #submitButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 7px;
-        }
-
-        #fileButton {
-            background-color: #00f;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        #answerInput {
-            border: 1px solid #000;
-            margin-bottom: 20px;
-        }
-
-        #submitButton {
-            background-color: #00f;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        #submitButton:disabled {
-            background-color: #0000ff60;
-            cursor: not-allowed;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1a5276;
-            color: #fff;
-            padding: 10px;
-            border-radius: 7px;
-            z-index: 999;
-        }
-    </style>
+    #navbar-buttons #leaderboard-button {
+      margin-left: 0;
+    }
+  </style>
 </head>
 
 <body>
-
-    <div id="navbar">
-        <div id="logo-container">
-            <div id="logo">
-                <!-- Replace the image source with your logo -->
-                <img src="" alt="Logo">
-            </div>
-            <div id="brand-name">PreCipherSaga</div>
-        </div>
-        <div id="navbar-buttons">
-            <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
-            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
-            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
-        </div>
+  <div id="navbar">
+    <div id="logo-container">
+      <div id="logo">
+        <!-- Replace the image source with your logo -->
+        <img src="" alt="Logo">
+      </div>
+      <div id="brand-name">PreCipherSaga</div>
     </div>
-    <div id="content">
-        <h1 id="levelTitle"></h1>
-        <div id="questionText"></div>
-        <img id="imageDisplay" alt="Question Image">
-        <button id="fileButton" onclick="openFile()">View File</button>
-        <input type="text" id="answerInput" placeholder="Enter your answer">
-        <button id="submitButton" onclick="submitAnswer()">Submit</button>
+    <div id="navbar-buttons">
+      <button onclick="play()"><i class="fa-solid fa-play"></i></button>
+      <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+      <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
     </div>
-    <div id="modal" class="modal"></div>
+  </div>
+  <div id="content">
+    <!-- Sign In Button -->
+    <button class="button" id="signInButton">Sign In with Google</button>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
-            authDomain: "usual-queries-login.firebaseapp.com",
-            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
-            projectId: "usual-queries-login",
-            storageBucket: "usual-queries-login.appspot.com",
-            messagingSenderId: "808817795355",
-            appId: "1:808817795355:web:6a2454e71cdce466f773be",
-            measurementId: "G-T9V22WWTBK"
-        };
+    <!-- Navigation Buttons -->
+    <button class="button" id="quizButton">Go to Quiz</button>
+    <button class="button" id="leaderboardButton">Go to Leaderboard</button>
+    <button class="button" id="signOutButton">Sign Out</button>
+  </div>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
+      authDomain: "usual-queries-login.firebaseapp.com",
+      databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
+      projectId: "usual-queries-login",
+      storageBucket: "usual-queries-login.appspot.com",
+      messagingSenderId: "808817795355",
+      appId: "1:808817795355:web:6a2454e71cdce466f773be",
+      measurementId: "G-T9V22WWTBK"
+    };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
 
-        auth.onAuthStateChanged(user => {
-            if (!user) {
-                window.location.href = 'register.html';
-            } else {
-                showQuizContent(user);
-            }
+    // Check if user is already signed in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in
+        handleSignIn(user);
+      } else {
+        // No user is signed in
+        handleSignOut();
+      }
+    });
+
+    // Sign In Button Click Event
+    document.getElementById('signInButton').addEventListener('click', () => {
+      // Google Sign-In with Popup
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          handleSignIn(result.user);
+        })
+        .catch(error => {
+          console.error("Error signing in:", error);
         });
+    });
 
-        function showQuizContent(user) {
-            const userRef = database.ref(`/users/${user.uid}/points`);
-            userRef.once('value')
-                .then(snapshot => {
-                    const userPoints = snapshot.val() || 0;
-                    const level = Math.floor(userPoints / 100) + 1;
+    // Sign Out Button Click Event
+    document.getElementById('signOutButton').addEventListener('click', () => {
+      // Sign out the user
+      auth.signOut();
+    });
 
-                    document.getElementById('levelTitle').innerText = `Level ${level}`;
+    // Quiz Button Click Event
+    document.getElementById('quizButton').addEventListener('click', () => {
+      window.location.href = 'URL_TO_QUIZ'; // Replace with the actual URL
+    });
 
-                    const questionRef = database.ref(`/questions/${level}`);
-                    questionRef.once('value')
-                        .then(snapshot => {
-                            const questionData = snapshot.val();
+    // Leaderboard Button Click Event
+    document.getElementById('leaderboardButton').addEventListener('click', () => {
+      window.location.href = 'URL_TO_LEADERBOARD'; // Replace with the actual URL
+    });
 
-                            if (questionData) {
-                                document.getElementById('questionText').innerText = questionData.text;
+    function handleSignIn(user) {
+      // Check if the email is from the gsv.ac.in domain
+      const email = user.email;
+      if (email.endsWith('@gsv.ac.in')) {
+        // User signed in with allowed domain
+        // Create /users/uid node with points and name
+        const usersRef = database.ref('/users/' + user.uid);
+        usersRef.transaction(function (currentData) {
+          if (!currentData) {
+            // If /users/uid does not exist, create it with points, name, and default values
+            return {
+              points: 0,
+              name: user.displayName || 'Unknown' // Use user's display name or 'Unknown' if not available
+            };
+          }
+        })
+          .then(() => {
+            // Hide Sign In Button, Show Navigation Buttons
+            document.getElementById('signInButton').style.display = 'none';
+            document.getElementById('quizButton').style.display = 'block';
+            document.getElementById('leaderboardButton').style.display = 'block';
+            document.getElementById('signOutButton').style.display = 'block';
+          })
+          .catch(error => {
+            console.error("Error creating /users/uid node:", error);
+          });
+      } else {
+        // User signed in with a non-allowed domain, sign out
+        auth.signOut();
+        alert('Only gsv.ac.in domain accounts are allowed.');
+      }
+    }
 
-                                if (questionData.image) {
-                                    document.getElementById('imageDisplay').src = questionData.image;
-                                    document.getElementById('imageDisplay').style.display = 'block';
-                                } else {
-                                    document.getElementById('imageDisplay').style.display = 'none';
-                                }
+    function handleSignOut() {
+      // Show Sign In Button, Hide Navigation Buttons
+      document.getElementById('signInButton').style.display = 'block';
+      document.getElementById('quizButton').style.display = 'none';
+      document.getElementById('leaderboardButton').style.display = 'none';
+      document.getElementById('signOutButton').style.display = 'none';
+    }
 
-                                if (questionData.file) {
-                                    document.getElementById('fileButton').style.display = 'block';
-                                    document.getElementById('fileButton').setAttribute('data-file', questionData.file);
-                                } else {
-                                    document.getElementById('fileButton').style.display = 'none';
-                                }
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error retrieving question:", error);
-                        });
-                })
-                .catch(error => {
-                    console.error("Error retrieving user points:", error);
-                });
-        }
+    function openLeaderboard() {
+      // Redirect to the leaderboard.html page
+      window.location.href = 'leaderboard.html';
+    }
 
-        function openFile() {
-            const fileUrl = document.getElementById('fileButton').getAttribute('data-file');
-            if (fileUrl) {
-                window.open(fileUrl, '_blank');
-            }
-        }
+    function play() {
+      // Add your logic to sign out
+      window.location.href = 'index.html';
+    }
 
-        function submitAnswer() {
-            const user = auth.currentUser;
-            const userRef = database.ref(`/users/${user.uid}`);
-            userRef.once('value')
-                .then(snapshot => {
-                    const userData = snapshot.val();
-                    const userPoints = userData.points || 0;
-                    const level = Math.floor(userPoints / 100) + 1;
-                    const answerInput = document.getElementById('answerInput').value.trim().toLowerCase();
-
-                    if (answerInput) {
-                        document.getElementById('submitButton').disabled = true;
-
-                        const questionRef = database.ref(`/questions/${level}`);
-                        questionRef.once('value')
-                            .then(snapshot => {
-                                const questionData = snapshot.val();
-
-                                if (questionData && questionData.ans) {
-                                    const correctAnswer = questionData.ans.trim().toLowerCase();
-
-                                    if (answerInput === correctAnswer) {
-                                        const newPoints = userPoints + 100;
-
-                                        // Update user points
-                                        userRef.update({
-                                            points: newPoints,
-                                            [`latest`]: firebase.database.ServerValue.TIMESTAMP
-                                        });
-
-                                        // Update user level timestamp
-                                        userRef.child(level.toString()).set(firebase.database.ServerValue.TIMESTAMP);
-
-                                        showSuccessModal();
-                                        setTimeout(() => {
-                                            location.reload();
-                                        }, 3000);
-                                    } else {
-                                        showErrorModal();
-                                    }
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Error retrieving question:", error);
-                                showErrorModal();
-                            })
-                            .finally(() => {
-                                document.getElementById('submitButton').disabled = false;
-                            });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error retrieving user data:", error);
-                });
-        }
-
-        function showSuccessModal() {
-            const modal = document.getElementById('modal');
-            modal.innerText = 'Congrats! Right answer.';
-            modal.style.backgroundColor = '#28a745';
-            modal.style.display = 'block';
-
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
-        }
-
-        function showErrorModal() {
-            const modal = document.getElementById('modal');
-            modal.innerText = 'Sorry! Wrong answer.';
-            modal.style.backgroundColor = '#dc3545';
-            modal.style.display = 'block';
-
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
-        }
-
-        function openLeaderboard() {
-            // Redirect to the leaderboard.html page
-            window.location.href = 'leaderboard.html';
-        }
-
-        function signOut() {
-            // Add your logic to sign out
-            window.location.href = 'register.html';
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Calculate the height of the navbar
-            const navbarHeight = document.getElementById('navbar').offsetHeight;
-
-            // Set margin-top for the content dynamically
-            document.getElementById('content').style.marginTop = navbarHeight + 'px';
-        });
-
-        function contri() {
-            window.location.href = 'credits.html';
-        }
-
-    </script>
-
+    function contri() {
+      window.location.href = 'credits.html';
+    }
+  </script>
 </body>
 
 </html>
