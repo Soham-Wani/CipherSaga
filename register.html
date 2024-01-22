@@ -11,8 +11,8 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       background-color: #0c0c46;
@@ -125,7 +125,6 @@
     <div id="navbar-buttons">
       <button onclick="play()"><i class="fa-solid fa-play"></i></button>
       <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
-      <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
       <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
     </div>
   </div>
@@ -234,6 +233,20 @@
       document.getElementById('quizButton').style.display = 'none';
       document.getElementById('leaderboardButton').style.display = 'none';
       document.getElementById('signOutButton').style.display = 'none';
+    }
+
+    function openLeaderboard() {
+      // Redirect to the leaderboard.html page
+      window.location.href = 'leaderboard.html';
+    }
+
+    function play() {
+      // Add your logic to sign out
+      window.location.href = 'index.html';
+    }
+
+    function contri() {
+      window.location.href = 'credits.html';
     }
   </script>
 </body>
