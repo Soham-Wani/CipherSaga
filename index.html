@@ -209,7 +209,7 @@
                             const questionData = snapshot.val();
 
                             if (questionData) {
-                                document.getElementById('questionText').innerText = questionData.text;
+                                document.getElementById('questionText').innerHTML = questionData.text.replace(/\\n/g, '<br>');
 
                                 if (questionData.image) {
                                     document.getElementById('imageDisplay').src = questionData.image;
@@ -250,7 +250,7 @@
                     const userData = snapshot.val();
                     const userPoints = userData.points || 0;
                     const level = Math.floor(userPoints / 100) + 1;
-                    const answerInput = document.getElementById('answerInput').value.trim().toLowerCase();
+                    const answerInput = document.getElementById('answerInput').value.trim().replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
                     if (answerInput) {
                         document.getElementById('submitButton').disabled = true;
@@ -261,7 +261,7 @@
                                 const questionData = snapshot.val();
 
                                 if (questionData && questionData.ans) {
-                                    const correctAnswer = questionData.ans.trim().toLowerCase();
+                                    const correctAnswer = questionData.ans.trim().replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
                                     if (answerInput === correctAnswer) {
                                         const newPoints = userPoints + 100;
