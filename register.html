@@ -11,37 +11,43 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    body {
-      background-color: #0c0c46;
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+    html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #0c0c46;
+}
 
-    #content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+#content {
+    max-width: 800px; /* Set a maximum width for better readability */
+    margin: 0 auto; /* Center the content horizontally */
+    text-align: left; /* Left-align the text */
+    padding: 20px; /* Add some padding for better spacing */
+    margin-top: 50px;
+}
 
-    .button {
-      background-color: #1a5276;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      margin: 10px;
-      cursor: pointer;
-      display: none;
-      border-radius: 12px;
-      font-family: 'Montserrat', sans-serif;
-    }
+/* Rest of your existing styles... */
+
+
+.button {
+    background-color: #1a5276;
+    color: #fff;
+    padding: 35px 50px; /* Increase padding for larger buttons */
+    font-size: 38px; /* Increase font size for larger buttons */
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    display: none;
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    
+}
+.button:hover {
+    background-color: #ff0000; /* Change the hover color */
+}
+
 
     #signInButton {
       display: block;
@@ -110,6 +116,57 @@
     #navbar-buttons #leaderboard-button {
       margin-left: 0;
     }
+    #instructions {
+    font-family: 'Montserrat', sans-serif;
+    color: #fffefe;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#instructions h1 {
+    color: #1a5276;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#instructions h2 {
+    color: #1a5276;
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+#instructions h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1.6rem;
+    line-height: 1.5;
+}
+
+#instructions h4 {
+    font-size: 1rem;
+    margin-bottom: 1.6rem;
+    line-height: 1.5;
+}
+
+#instructions p {
+    margin-bottom: 1rem;
+}
+
+#instructions a {
+    color: #e44d26;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+#instructions a:hover {
+    text-decoration: underline;
+    color: #bf3100;
+}
+
+#links {
+    color: #e44d26;
+}
+
   </style>
 </head>
 
@@ -125,17 +182,145 @@
     <div id="navbar-buttons">
       <button onclick="play()"><i class="fa-solid fa-play"></i></button>
       <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+      <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
       <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
     </div>
   </div>
-  <div id="content">
+
+    <div id="content">
     <!-- Sign In Button -->
     <button class="button" id="signInButton">Sign In with Google</button>
-
-    <!-- Navigation Buttons -->
-    <button class="button" id="quizButton">Go to Quiz</button>
-    <button class="button" id="leaderboardButton">Go to Leaderboard</button>
     <button class="button" id="signOutButton">Sign Out</button>
+  </div>
+
+  <div id="instructions">
+   
+   <h1>
+    <ul>
+        <li>
+                About The Event
+        </li>
+       </ul> 
+   </h1>
+   
+    <h3>
+        <ul style="list-style-type:square;">
+            <li>
+                PreCipherSaga is a prelude to the cryptic hunt event being held during EPITOME'24, the annual tech fest of Gati Shakti Vishwavidyalaya, Vadodara.
+            </li>     
+        </ul>
+        
+    </h3>
+    <h1><ul><li>
+        FaQ's : -
+    </li></ul></h1>
+    <h2>
+       <ul>
+        <li>
+            What Are Cryptic Hunts?
+        </li>
+        </ul>
+    </h2>
+    <h3>
+        <ul style="list-style-type:square;">
+            <li>
+                Cryptic hunts are like treasure hunts, but online. They require you to hunt the internet for clues and hints to solve given questions. Cipher coders, AI tools, QR codes, coding softwares, etc. are all allowed and to be used.
+            </li>
+        </ul>
+        
+    </h3>
+    <h2>
+        <ul><li>How Will Wineers Be Decided?</li></ul>
+    </h2>
+    <h3>
+        <ul style="list-style-type:square;">
+            <li>
+                The person to solve most levels by the end of the competition wins. In case of a tie, winners are judged based on the time. Early to solve wins.
+            </li>
+        
+        </ul>
+       
+    </h3>
+    <h2  id = "links">
+        <ul>
+            <li>
+                Important Links
+            </li>
+        </ul>
+        
+    </h2>
+    <h3>
+        <ol>
+            <li>
+                <p>Event platform: <a href="https://technocratsgsv.github.io/PreCipherSaga/">https://technocratsgsv.github.io/PreCipherSaga/</a> </p>
+            </li>
+            <li>
+                <p>Registeration:<a href="https://technocratsgsv.github.io/PreCipherSaga/register.html">https://technocratsgsv.github.io/PreCipherSaga/register.html</a></p>
+            </li>
+            <li>
+                <p>
+                    Discord server:<a href="https://discord.com/invite/r3xyfRmUk7">https://discord.com/invite/r3xyfRmUk7</a>
+                </p>
+            </li>
+        </ol>
+        
+       
+    </h3>
+    <h1>
+    <ul>
+        <li>
+            Rules And Guidelines
+        </li>
+
+    </ul>
+       
+    </h1>
+    <ol>
+        <h4>
+           <li>
+            <p>
+                Make sure you have registered om the platform. Make sure only to use your student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
+            </p>
+           </li>
+            <li>
+                <p>
+                    All hints & lead confirmations will be done via Discord; the server link will be available above.
+                </p>
+            </li>
+            <li>
+                <p>
+                    The server will also contain a general chat for all participants to communicate with each other. Do not ping other participants for hints/lead confirmations 1:1. You can only ping the event coordinators via Discord or use the general chat.
+                </p>
+            </li>
+            <li>
+                <p>
+                    Sharing answers or hints is strictly prohibited among users via any medium. Only organizers hold this right. If found will lead to direct disqualification.
+                </p>
+            </li>
+            <li>
+                <p>
+                    To report misconduct by any player, please DM the event coordinators.
+                </p>
+            </li>
+            <li>
+                <p>
+                    All communication for the event will be done via Discord ONLY. No communication for the event over WhatsApp.
+                </p>
+            </li>
+            <li>
+                <p>
+                    Reverse engineering the platform means direct ban from the competition. Bugs if found should be reported and not exploited. Exploiting a bug also leads to disqualification.
+                </p>
+            </li>
+            <li>
+                <p>
+                    Decision by organizers is final and should not be questioned.
+                </p>
+            </li>
+            
+        </h4>
+    </ol>
+    
   </div>
   <script>
     const firebaseConfig = {
@@ -184,16 +369,6 @@
       auth.signOut();
     });
 
-    // Quiz Button Click Event
-    document.getElementById('quizButton').addEventListener('click', () => {
-      window.location.href = 'URL_TO_QUIZ'; // Replace with the actual URL
-    });
-
-    // Leaderboard Button Click Event
-    document.getElementById('leaderboardButton').addEventListener('click', () => {
-      window.location.href = 'URL_TO_LEADERBOARD'; // Replace with the actual URL
-    });
-
     function handleSignIn(user) {
       // Check if the email is from the gsv.ac.in domain
       const email = user.email;
@@ -213,8 +388,6 @@
           .then(() => {
             // Hide Sign In Button, Show Navigation Buttons
             document.getElementById('signInButton').style.display = 'none';
-            document.getElementById('quizButton').style.display = 'block';
-            document.getElementById('leaderboardButton').style.display = 'block';
             document.getElementById('signOutButton').style.display = 'block';
           })
           .catch(error => {
@@ -230,23 +403,26 @@
     function handleSignOut() {
       // Show Sign In Button, Hide Navigation Buttons
       document.getElementById('signInButton').style.display = 'block';
-      document.getElementById('quizButton').style.display = 'none';
-      document.getElementById('leaderboardButton').style.display = 'none';
       document.getElementById('signOutButton').style.display = 'none';
     }
 
-    function openLeaderboard() {
-      // Redirect to the leaderboard.html page
-      window.location.href = 'leaderboard.html';
-    }
-
     function play() {
-      // Add your logic to sign out
+      // Redirect to the index.html page
       window.location.href = 'index.html';
     }
 
+    function signOut() {
+      // Redirect the user to homepage
+      window.location.href = 'register.html';
+    }
+
     function contri() {
-      window.location.href = 'credits.html';
+      // Redirect the user to Contribution Page
+      window.location.href = 'contribution.html';
+    }
+    function openLeaderboard(){
+        //Redirect the user to the leaderboard Page
+        window.location.href = 'leaderboard.html';
     }
   </script>
 </body>
