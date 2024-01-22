@@ -117,7 +117,7 @@
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
-            <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+            <button onclick="play()"><i class="fa-solid fa-medal"></i></button>
             <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
             <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
         </div>
@@ -192,9 +192,9 @@
             document.getElementById('content').style.marginTop = navbarHeight + 'px';
         });
 
-        function openLeaderboard() {
+        function play() {
             // Redirect to the leaderboard.html page
-            window.location.href = 'leaderboard.html';
+            window.location.href = 'index.html';
         }
 
         function signOut() {
