@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Credits.css">
+    <title>Credits</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300&display=swap');
+
+    body {
+        background: linear-gradient(45deg, #0c0c46, #0f051d);
+    }
+
+    * {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        text-transform: capitalize;
+        transition: .2s linear;
+    }
+
+    .container {
+        padding: 15px 9%;
+        padding-bottom: 100px;
+    }
+
+    .container .heading {
+        text-align: center;
+        padding-top: 70px;
+        padding-bottom: 25px;
+        color: #fff;
+        text-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        font-size: 50px;
+    }
+
+    .container .box-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 15px;
+    }
+
+    .container .box-container .box {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        border-radius: 5px;
+        background: #47c4ee;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .container .box-container .box img {
+        height: 250px;
+        border-radius: 100%;
+    }
+
+    .container .box-container h3 {
+        color: black;
+        font-family: 40px;
+        font-weight: 20px;
+        padding: 10px 0;
+    }
+
+
+
+    .container .box-container .box:hover {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
+        transform: scale(1.03);
+    }
+
+    @media(max-width:768px) {
+        .container {
+            padding: 20px;
+        }
+    }
+
+    footer {
+        padding-top: 5%;
+        color: #fff;
+        text-align: center;
+    }
+
+    footer h2 {
+        size: 5px;
+    }
+
+    footer p {
+        padding-top: 1.5%;
+    }
+
+    /* Nav bar */
+
+    #navbar {
+        display: flex;
+        background-color: #0c0c46;
+        padding: 10px;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    #logo-container {
+        display: flex;
+        align-items: center;
+    }
+
+    #logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 10px;
+    }
+
+    #logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    #brand-name {
+        color: #fff;
+        font-size: 22px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    #navbar-buttons {
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+    }
+
+    #navbar-buttons button {
+        background-color: #00f;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    #navbar-buttons button:hover {
+        background-color: #000;
+
+    }
+
+
+    #navbar-buttons #leaderboard-button {
+        margin-left: 0;
+    }
+</style>
+
+<body>
+    <!-- Nav Bar -->
+    <div id="navbar">
+
+        <div id="logo-container">
+            <div id="logo">
+                <!-- Replace the image source with your logo -->
+                <img src="" alt="Logo">
+            </div>
+            <div id="brand-name">PreCipherSaga</div>
+        </div>
+        <div id="navbar-buttons">
+            <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
+            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
+        </div>
+         
+    </div>
+
+    <!-- Credits -->
+    <div class="container">
+
+        <h1 class="heading">OUR TEAM</h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <img src="https://i.ibb.co/w0zk8Dr/1.jpg" alt="1" border="0"></a>
+                <h3>Rajat Pandey</h3>
+                <h5>Mentor</h5>
+            </div>
+
+
+            <div class="box">
+                <img src="https://i.ibb.co/s9hjSXR/2.png" alt="2" border="0"></a>
+                <h3>Soham Wani</h3>
+                <h5>Mentor</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://i.ibb.co/nDKnzzj/3.jpg" alt="3" border="0"></a>
+                <h3>Shreya Mohanty</h3>
+                <h5>Lead</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://i.ibb.co/CWT1yFn/4.jpg" alt="4" border="0"></a>
+                <h3>Rishav Kumar</h3>
+                <h5>Co-Lead</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://i.ibb.co/Mn0yMvt/5.jpg" alt="5" border="0"></a>
+                <h3>Shruti Verma</h3>
+                <h5>Contributer</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://i.ibb.co/tmfGchT/6.jpg" alt="6" border="0"></a>
+                <h3>Aditya Acharya</h3>
+                <h5>Contributer</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://i.ibb.co/6wWCTM4/7.jpg" alt="7" border="0"></a>
+                <h3>Meet Parmar</h3>
+                <h5>Contributer</h5>
+            </div>
+
+        </div>
+
+        <footer>
+            <h2>TECHNOCRATS</h2>
+            <p>With Love From Progamming Domain</p>
+        </footer>
+    </div>
+</body>
+
+<script>function openLeaderboard() {
+    // Redirect to the leaderboard.html page
+    window.location.href = 'leaderboard.html';
+}
+
+function signOut() {
+    // Add your logic to sign out
+    window.location.href = 'register.html';
+}
+
+function contri() {
+    window.location.href = 'credits.html';
+        }</script>
+
+</html>
