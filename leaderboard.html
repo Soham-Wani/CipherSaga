@@ -55,7 +55,7 @@
         #brand-name {
             color: #fff;
             font-size: 22px;
-            text-transform: uppercase;
+            /* text-transform: uppercase; */
             font-weight: bold;
         }
 
@@ -103,6 +103,16 @@
             background-color: #0c0c66;
             color: #ddd;
         }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            position: static;
+            bottom: 0;
+            max-width: 100%;
+            color: #ddd;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -119,7 +129,7 @@
         <div id="navbar-buttons">
             <button onclick="play()"><i class="fa-solid fa-play"></i></button>
             <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
-            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
+            <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
         </div>
     </div>
     <div id="content">
@@ -131,6 +141,10 @@
             </tr>
         </table>
     </div>
+    <footer>
+        <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
+                Domain</a></p>
+    </footer>
     <script>
         // Initialize Firebase
         const firebaseConfig = {
