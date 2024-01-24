@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Credits.css">
     <title>Credits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300&display=swap');
@@ -22,7 +24,7 @@
         outline: none;
         border: none;
         text-decoration: none;
-        text-transform: capitalize;
+        /* text-transform: capitalize; */
         transition: .2s linear;
     }
 
@@ -40,6 +42,23 @@
         font-size: 50px;
     }
 
+    .container .heading2 {
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        font-size: 30px;
+        padding-top: 20px;
+        padding-bottom: 5px;
+    }
+
+    .container .heading3 {
+        text-align: center;
+        color: #ddd;
+        text-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        font-size: 20px;
+        padding: 5px;
+    }
+
     .container .box-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -55,7 +74,7 @@
     }
 
     .container .box-container .box img {
-        height: 250px;
+        height: 200px;
         border-radius: 100%;
     }
 
@@ -65,8 +84,6 @@
         font-weight: 20px;
         padding: 10px 0;
     }
-
-
 
     .container .box-container .box:hover {
         box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
@@ -132,7 +149,7 @@
     #brand-name {
         color: #fff;
         font-size: 22px;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */
         font-weight: bold;
     }
 
@@ -157,7 +174,6 @@
 
     }
 
-
     #navbar-buttons #leaderboard-button {
         margin-left: 0;
     }
@@ -175,11 +191,11 @@
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
+            <button onclick="play()"><i class="fa-solid fa-play"></i></button>
             <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
             <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
-            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
         </div>
-         
+
     </div>
 
     <!-- Credits -->
@@ -188,19 +204,6 @@
         <h1 class="heading">OUR TEAM</h1>
 
         <div class="box-container">
-
-            <div class="box">
-                <img src="https://i.ibb.co/w0zk8Dr/1.jpg" alt="1" border="0"></a>
-                <h3>Rajat Pandey</h3>
-                <h5>Mentor</h5>
-            </div>
-
-
-            <div class="box">
-                <img src="https://i.ibb.co/s9hjSXR/2.png" alt="2" border="0"></a>
-                <h3>Soham Wani</h3>
-                <h5>Mentor</h5>
-            </div>
 
             <div class="box">
                 <img src="https://i.ibb.co/nDKnzzj/3.jpg" alt="3" border="0"></a>
@@ -215,44 +218,83 @@
             </div>
 
             <div class="box">
+                <img src="https://i.ibb.co/6wWCTM4/7.jpg" alt="7" border="0"></a>
+                <h3>Meet Parmar</h3>
+                <h5>Member</h5>
+            </div>
+
+            <div class="box">
                 <img src="https://i.ibb.co/Mn0yMvt/5.jpg" alt="5" border="0"></a>
                 <h3>Shruti Verma</h3>
-                <h5>Contributer</h5>
+                <h5>Member</h5>
             </div>
 
             <div class="box">
                 <img src="https://i.ibb.co/tmfGchT/6.jpg" alt="6" border="0"></a>
                 <h3>Aditya Acharya</h3>
-                <h5>Contributer</h5>
+                <h5>Member</h5>
             </div>
 
             <div class="box">
-                <img src="https://i.ibb.co/6wWCTM4/7.jpg" alt="7" border="0"></a>
-                <h3>Meet Parmar</h3>
-                <h5>Contributer</h5>
+                <img src="https://i.ibb.co/w0zk8Dr/1.jpg" alt="1" border="0"></a>
+                <h3>Rajat Pandey</h3>
+                <h5>Mentor</h5>
+            </div>
+
+            <div class="box">
+                <img src="https://media.licdn.com/dms/image/D4D03AQHixx9tIY2vNA/profile-displayphoto-shrink_200_200/0/1693198973772?e=2147483647&v=beta&t=Y_Bx6SMrqxsEihBDYNbdBbSA6MzFsRWWZoBrqVKLZH4"
+                    alt="2" border="0"></a>
+                <h3>Soham Wani</h3>
+                <h5>Mentor</h5>
             </div>
 
         </div>
+        <h1 class="heading">CREDITS</h1>
+        <h2 class="heading2">Development Team</h2>
+        <h3 class="heading3">Soham Wani</h3>
+        <h3 class="heading3">Rishav Kumar</h3>
+        <h3 class="heading3">Meet Parmar</h3>
+        <h3 class="heading3">Shreya Mohanty</h3>
+        <h3 class="heading3"><a style='text-decoration:none;color:#aaaaff;'
+                href='https://github.com/technocratsgsv/PreCipherSaga'>Access Github Repo</a></h3>
 
+        <h2 class="heading2">Question Making Team</h2>
+        <h3 class="heading3">Shreya Mohanty</h3>
+        <h3 class="heading3">Shruthi Verma</h3>
+        <h3 class="heading3">Soham Wani</h3>
+
+        <h2 class="heading2">Logo Credits</h2>
+        <h3 class="heading3">Aditya Acharya</h3>
+
+        <h2 class="heading2">Mentors</h2>
+        <h3 class="heading3">Rajat Pandey</h3>
+        <h3 class="heading3">Soham Wani</h3>
+
+        <h2 class="heading2">Ideation and Guidelines</h2>
+        <h3 class="heading3">IITM BS Tech Society - Cosmos</h3>
+
+        <h2 class="heading2">Conducted By</h2>
+        <h3 class="heading3">TechnoCrats GSV</h3>
         <footer>
-            <h2>TECHNOCRATS</h2>
-            <p>With Love From Progamming Domain</p>
+            <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
+                    Domain</a></p>
         </footer>
     </div>
 </body>
 
-<script>function openLeaderboard() {
-    // Redirect to the leaderboard.html page
-    window.location.href = 'leaderboard.html';
-}
+<script>
+    function openLeaderboard() {
+        // Redirect to the leaderboard.html page
+        window.location.href = 'leaderboard.html';
+    }
 
-function signOut() {
-    // Add your logic to sign out
-    window.location.href = 'register.html';
-}
+    function signOut() {
+        // Add your logic to sign out
+        window.location.href = 'register.html';
+    }
 
-function contri() {
-    window.location.href = 'credits.html';
-        }</script>
+    function play() {
+        window.location.href = 'index.html';
+    }</script>
 
 </html>
