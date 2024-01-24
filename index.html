@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>PreCipherSaga</title>
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -57,7 +57,7 @@
         #brand-name {
             color: #fff;
             font-size: 22px;
-            text-transform: uppercase;
+            /* text-transform: uppercase; */
             font-weight: bold;
         }
 
@@ -141,6 +141,16 @@
             border-radius: 7px;
             z-index: 999;
         }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            max-width: 100%;
+            color: #ddd;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -157,7 +167,7 @@
         <div id="navbar-buttons">
             <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
             <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
-            <button onclick="contri()"><i class="fa-solid fa-users"></i></button>
+            <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
         </div>
     </div>
     <div id="content">
@@ -169,6 +179,12 @@
         <button id="submitButton" onclick="submitAnswer()">Submit</button>
     </div>
     <div id="modal" class="modal"></div>
+
+    <footer>
+        <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
+                Domain</a></p>
+    </footer>
+
 
     <script>
         const firebaseConfig = {
