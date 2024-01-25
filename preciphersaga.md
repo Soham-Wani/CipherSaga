@@ -1,0 +1,1 @@
+Hey player 1! You are finally here! These questions are getting tougher? Easier? You never know what lies ahead. Life is so unpredictable. What does life give you tho? Happiness? Sadness? Indecisiveness? You never know that either!
