@@ -7,18 +7,12 @@ Cryptic hunts are like treasure hunts, but online. They require you to hunt the 
 # How Will Winners Be Decided? 
 The person to solve most levels by the end of the competition wins. In case of a tie, winners are judged based on the time. Early to solve wins. 
 
-# Important Links
-- **Event platform:** [https://technocratsgsv.github.io/PreCipherSaga/](https://technocratsgsv.github.io/PreCipherSaga/)
-- **Registeration:** [https://technocratsgsv.github.io/PreCipherSaga/register.html](https://technocratsgsv.github.io/PreCipherSaga/register.html)
-- **Discord server:** [https://discord.com/invite/r3xyfRmUk7](https://discord.com/invite/r3xyfRmUk7)
-
 # Rules And Guidelines
-- Make sure you have registered om the platform. Make sure only to use your student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
-- All hints & lead confirmations will be done via Discord; the server link will be available above.
-- The server will also contain a general chat for all participants to communicate with each other. Do not ping other participants for hints/lead confirmations 1:1. You can only ping the event coordinators via Discord or use the general chat.
+- Make sure you have registered on the platform. Make sure only to use your registered student email; all other accounts will be marked as non-compete & you will not be allowed to score any points.
+- All hints & lead confirmations will be done via the official PreCipherSaga WhatsApp Group and official TechnoCrats Instagram page only.
+- You are not allowed to contact the organizers or any other member for hints or leads. Pressurizing other players or the organizers for leaking answers can be considered as indisciplinary action.
 - Sharing answers or hints is strictly prohibited among users via any medium. Only organizers hold this right. If found will lead to direct disqualification.
 - To report misconduct by any player, please DM the event coordinators.
-- All communication for the event will be done via Discord ONLY. No communication for the event over WhatsApp.
 - Reverse engineering the platform means direct ban from the competition. Bugs if found should be reported and not exploited. Exploiting a bug also leads to disqualification.
 - Decision by organizers is final and should not be questioned.
 
