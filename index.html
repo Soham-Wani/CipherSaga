@@ -217,7 +217,7 @@
                     const userPoints = snapshot.val() || 0;
                     const level = Math.floor(userPoints / 100) + 1;
 
-                    document.getElementById('levelTitle').innerText = `Level ${level}`;
+                    document.getElementById('levelTitle').innerText = `Sample Level ${level}`;
 
                     const questionRef = database.ref(`/questions/${level}`);
                     questionRef.once('value')
