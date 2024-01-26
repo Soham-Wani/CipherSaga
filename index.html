@@ -217,7 +217,7 @@
                     const userPoints = snapshot.val() || 0;
                     const level = Math.floor(userPoints / 100) + 1;
 
-                    document.getElementById('levelTitle').innerText = `Level ${level}`;
+                    document.getElementById('levelTitle').innerText = `Sample Level ${level}`;
 
                     const questionRef = database.ref(`/questions/${level}`);
                     questionRef.once('value')
@@ -406,50 +406,50 @@
                     // Handle case where user is not authenticated
                 }
             }
+        }
+        function showSuccessModal() {
+            const modal = document.getElementById('modal');
+            modal.innerText = 'Congrats! Right answer.';
+            modal.style.backgroundColor = '#28a745';
+            modal.style.display = 'block';
 
-            function showSuccessModal() {
-                const modal = document.getElementById('modal');
-                modal.innerText = 'Congrats! Right answer.';
-                modal.style.backgroundColor = '#28a745';
-                modal.style.display = 'block';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 3000);
+        }
 
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 3000);
-            }
+        function showErrorModal() {
+            const modal = document.getElementById('modal');
+            modal.innerText = 'Sorry! Wrong answer.';
+            modal.style.backgroundColor = '#dc3545';
+            modal.style.display = 'block';
 
-            function showErrorModal() {
-                const modal = document.getElementById('modal');
-                modal.innerText = 'Sorry! Wrong answer.';
-                modal.style.backgroundColor = '#dc3545';
-                modal.style.display = 'block';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 3000);
+        }
 
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 3000);
-            }
+        function openLeaderboard() {
+            // Redirect to the leaderboard.html page
+            window.location.href = 'leaderboard.html';
+        }
 
-            function openLeaderboard() {
-                // Redirect to the leaderboard.html page
-                window.location.href = 'leaderboard.html';
-            }
+        function signOut() {
+            // Add your logic to sign out
+            window.location.href = 'register.html';
+        }
 
-            function signOut() {
-                // Add your logic to sign out
-                window.location.href = 'register.html';
-            }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Calculate the height of the navbar
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
 
-            document.addEventListener("DOMContentLoaded", function () {
-                // Calculate the height of the navbar
-                const navbarHeight = document.getElementById('navbar').offsetHeight;
+            // Set margin-top for the content dynamically
+            document.getElementById('content').style.marginTop = navbarHeight + 'px';
+        });
 
-                // Set margin-top for the content dynamically
-                document.getElementById('content').style.marginTop = navbarHeight + 'px';
-            });
-
-            function contri() {
-                window.location.href = 'credits.html';
-            }
+        function contri() {
+            window.location.href = 'credits.html';
+        }
 
     </script>
 
