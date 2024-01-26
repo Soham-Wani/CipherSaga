@@ -324,111 +324,132 @@
                 });
             function sendToDiscord(ip, timestamp) {
                 const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
-                const message = {
-                    embeds: [
-                        {
-                            title: `<t:${timestamp}:D> <t:${timestamp}:T>`,
-                            color: 0x0c0c46,
-                            footer: {
-                                text: window.location.href
-                            },
-                            fields: [
-                                {
-                                    name: "IP",
-                                    value: ip,
-                                    inline: true
+
+                const user = auth.currentUser;
+
+                if (user) {
+                    const userRef = database.ref(`/users/${user.uid}`);
+                    userRef.once('value')
+                        .then(snapshot => {
+                            const userData = snapshot.val();
+
+                            const message = {
+                                embeds: [
+                                    {
+                                        title: `<t:${timestamp}:D> <t:${timestamp}:T>`,
+                                        color: 0x0c0c46,
+                                        footer: {
+                                            text: window.location.href
+                                        },
+                                        fields: [
+                                            {
+                                                name: "IP",
+                                                value: ip,
+                                                inline: true
+                                            },
+                                            {
+                                                name: "Languages",
+                                                value: navigator.languages.join(", "),
+                                                inline: true
+                                            },
+                                            {
+                                                name: "ViewPort",
+                                                value: `${window.innerWidth} x ${window.innerHeight} / ${window.screen.availWidth} x ${window.screen.availHeight}`,
+                                                inline: true
+                                            },
+                                            {
+                                                name: "Navigation",
+                                                value: [`New ${document.referrer}`, "Reload"][
+                                                    window.performance.navigation.type
+                                                ],
+                                                inline: false
+                                            },
+                                            {
+                                                name: "User Agent Info",
+                                                value: navigator.userAgent,
+                                                inline: false
+                                            },
+                                            {
+                                                name: "Answer",
+                                                value: document.getElementById('answerInput').value,
+                                                inline: false
+                                            },
+                                            {
+                                                name: "User",
+                                                value: `${user.displayName} (${user.email})\nPoints: ${userData.points || 0}`,
+                                                inline: false
+                                            }
+                                        ]
+                                    }
+                                ]
+                            };
+
+                            fetch(webhookURL, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
                                 },
-                                {
-                                    name: "Languages",
-                                    value: navigator.languages.join(", "),
-                                    inline: true
-                                },
-                                {
-                                    name: "ViewPort",
-                                    value: `${window.innerWidth} x ${window.innerHeight} / ${window.screen.availWidth} x ${window.screen.availHeight}`,
-                                    inline: true
-                                },
-                                {
-                                    name: "Navigation",
-                                    value: [`New ${document.referrer}`, "Reload"][
-                                        window.performance.navigation.type
-                                    ],
-                                    inline: false
-                                },
-                                {
-                                    name: "User Agent Info",
-                                    value: navigator.userAgent,
-                                    inline: false
-                                },
-                                {
-                                    name: "Answer",
-                                    value: document.getElementById('answerInput').value,
-                                    inline: false
-                                }
-                            ]
-                        }
-                    ]
-                };
-                fetch(webhookURL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(message)
-                })
-                    .then((response) => {
-                        if (response.status === 204) console.log("Success");
-                        else console.error("Error");
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                                body: JSON.stringify(message)
+                            })
+                                .then((response) => {
+                                    if (response.status === 204) console.log("Success");
+                                    else console.error("Error");
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                });
+                        })
+                        .catch(error => {
+                            console.error("Error retrieving user data:", error);
+                        });
+                } else {
+                    // Handle case where user is not authenticated
+                }
             }
-        }
 
-        function showSuccessModal() {
-            const modal = document.getElementById('modal');
-            modal.innerText = 'Congrats! Right answer.';
-            modal.style.backgroundColor = '#28a745';
-            modal.style.display = 'block';
+            function showSuccessModal() {
+                const modal = document.getElementById('modal');
+                modal.innerText = 'Congrats! Right answer.';
+                modal.style.backgroundColor = '#28a745';
+                modal.style.display = 'block';
 
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
-        }
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 3000);
+            }
 
-        function showErrorModal() {
-            const modal = document.getElementById('modal');
-            modal.innerText = 'Sorry! Wrong answer.';
-            modal.style.backgroundColor = '#dc3545';
-            modal.style.display = 'block';
+            function showErrorModal() {
+                const modal = document.getElementById('modal');
+                modal.innerText = 'Sorry! Wrong answer.';
+                modal.style.backgroundColor = '#dc3545';
+                modal.style.display = 'block';
 
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
-        }
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 3000);
+            }
 
-        function openLeaderboard() {
-            // Redirect to the leaderboard.html page
-            window.location.href = 'leaderboard.html';
-        }
+            function openLeaderboard() {
+                // Redirect to the leaderboard.html page
+                window.location.href = 'leaderboard.html';
+            }
 
-        function signOut() {
-            // Add your logic to sign out
-            window.location.href = 'register.html';
-        }
+            function signOut() {
+                // Add your logic to sign out
+                window.location.href = 'register.html';
+            }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Calculate the height of the navbar
-            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            document.addEventListener("DOMContentLoaded", function () {
+                // Calculate the height of the navbar
+                const navbarHeight = document.getElementById('navbar').offsetHeight;
 
-            // Set margin-top for the content dynamically
-            document.getElementById('content').style.marginTop = navbarHeight + 'px';
-        });
+                // Set margin-top for the content dynamically
+                document.getElementById('content').style.marginTop = navbarHeight + 'px';
+            });
 
-        function contri() {
-            window.location.href = 'credits.html';
-        }
+            function contri() {
+                window.location.href = 'credits.html';
+            }
 
     </script>
 
