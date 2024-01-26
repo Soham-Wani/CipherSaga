@@ -160,7 +160,7 @@
         <div id="logo-container">
             <div id="logo">
                 <!-- Replace the image source with your logo -->
-                <img src="" alt="Logo">
+                <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
             </div>
             <div id="brand-name">PreCipherSaga</div>
         </div>
@@ -217,7 +217,7 @@
                     const userPoints = snapshot.val() || 0;
                     const level = Math.floor(userPoints / 100) + 1;
 
-                    document.getElementById('levelTitle').innerText = `Sample Level ${level}`;
+                    document.getElementById('levelTitle').innerText = `Level ${level}`;
 
                     const questionRef = database.ref(`/questions/${level}`);
                     questionRef.once('value')
@@ -323,16 +323,7 @@
                     sendToDiscord();
                 });
             function sendToDiscord(ip, timestamp) {
-    const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
-    
-    const user = auth.currentUser;
-
-    if (user) {
-        const userRef = database.ref(`/users/${user.uid}`);
-        userRef.once('value')
-            .then(snapshot => {
-                const userData = snapshot.val();
-
+                const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
                 const message = {
                     embeds: [
                         {
@@ -373,17 +364,11 @@
                                     name: "Answer",
                                     value: document.getElementById('answerInput').value,
                                     inline: false
-                                },
-                                {
-                                    name: "User",
-                                    value: `${user.displayName} (${user.email})\nPoints: ${userData.points || 0}`,
-                                    inline: false
                                 }
                             ]
                         }
                     ]
                 };
-
                 fetch(webhookURL, {
                     method: "POST",
                     headers: {
@@ -391,22 +376,16 @@
                     },
                     body: JSON.stringify(message)
                 })
-                .then((response) => {
-                    if (response.status === 204) console.log("Success");
-                    else console.error("Error");
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-            })
-            .catch(error => {
-                console.error("Error retrieving user data:", error);
-            });
-    } else {
-        // Handle case where user is not authenticated
-    }
+                    .then((response) => {
+                        if (response.status === 204) console.log("Success");
+                        else console.error("Error");
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             }
         }
+
         function showSuccessModal() {
             const modal = document.getElementById('modal');
             modal.innerText = 'Congrats! Right answer.';
