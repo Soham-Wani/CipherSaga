@@ -506,7 +506,7 @@
     function handleSignIn(user) {
       // Check if the email is from the gsv.ac.in domain
       const email = user.email;
-      if (email.endsWith('@gsv.ac.in')) {
+      if (email.endsWith('@gsv.ac.in') || ['sohamwani1812@gmail.com','22f3002538@ds.study.iitm.ac.in'].includes(email)) {
         // User signed in with allowed domain
         // Create /users/uid node with points and name
         const usersRef = database.ref('/users/' + user.uid);
