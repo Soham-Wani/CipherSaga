@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
-    <!-- Add Firebase SDK -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/YtmNbTq/transparent-logo.png">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -55,7 +55,6 @@
         #brand-name {
             color: #fff;
             font-size: 22px;
-            /* text-transform: uppercase; */
             font-weight: bold;
         }
 
@@ -117,18 +116,16 @@
 </head>
 
 <body>
-
     <div id="navbar">
         <div id="logo-container">
             <div id="logo">
-                <!-- Replace the image source with your logo -->
-                <img src="" alt="Logo">
+                <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
             </div>
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
             <button onclick="play()"><i class="fa-solid fa-play"></i></button>
-            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+            <button onclick="home()"><i class="fa-solid fa-house"></i></button>
             <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
         </div>
     </div>
@@ -142,49 +139,40 @@
         </table>
     </div>
     <footer>
-        <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
-                Domain</a></p>
+        <p><!--Note: Rajat Pandey, Soham Wani, Vivek Kumar, Shreya Mohanty and Shruti Verma are ineligible to win.<br>--><a
+                href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
+                Domain, TechnoCrats GSV</a></p>
     </footer>
     <script>
-        // Initialize Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
-            authDomain: "usual-queries-login.firebaseapp.com",
-            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
-            projectId: "usual-queries-login",
-            storageBucket: "usual-queries-login.appspot.com",
-            messagingSenderId: "808817795355",
-            appId: "1:808817795355:web:6a2454e71cdce466f773be",
-            measurementId: "G-T9V22WWTBK"
+            apiKey: "AIzaSyCe_avq70kaG5Om1Pmi3vgQdCqppZ9066k",
+            authDomain: "preciphersaga.firebaseapp.com",
+            databaseURL: "https://preciphersaga-default-rtdb.firebaseio.com",
+            projectId: "preciphersaga",
+            storageBucket: "preciphersaga.appspot.com",
+            messagingSenderId: "311896747046",
+            appId: "1:311896747046:web:9a1844f950caf462f44ae7",
+            measurementId: "G-4CFBLSVMV4"
         };
 
         firebase.initializeApp(firebaseConfig);
-
-        // Reference to the 'users' node in the Firebase database
         var usersRef = firebase.database().ref('users');
 
-        // Fetch user data from Firebase
         usersRef.once('value').then(function (snapshot) {
-            // Convert the snapshot to an array
             var users = Object.entries(snapshot.val());
-
-            // Sort the array based on points and latest value
             users.sort(function (a, b) {
                 if (b[1].points !== a[1].points) {
-                    return b[1].points - a[1].points; // Sort by points descending
+                    return b[1].points - a[1].points;
                 } else {
-                    return a[1].latest - b[1].latest; // If points are the same, sort by latest descending
+                    return a[1].latest - b[1].latest;
                 }
             });
-
-            // Display the leaderboard
             var rank = 1;
 
             users.forEach(function (user) {
                 var userId = user[0];
                 var points = user[1].points;
 
-                // Get the user name from the database
                 var userNameRef = firebase.database().ref('users/' + userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
                     var userName = nameSnapshot.val() || 'Unknown';
@@ -199,20 +187,16 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Calculate the height of the navbar
             const navbarHeight = document.getElementById('navbar').offsetHeight;
 
-            // Set margin-top for the content dynamically
             document.getElementById('content').style.marginTop = navbarHeight + 'px';
         });
 
         function play() {
-            // Redirect to the leaderboard.html page
             window.location.href = 'index.html';
         }
 
-        function signOut() {
-            // Add your logic to sign out
+        function home() {
             window.location.href = 'register.html';
         }
 
