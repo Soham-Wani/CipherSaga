@@ -526,7 +526,7 @@
 
     function handleSignIn(user) {
       const email = user.email;
-      if (['sohamwani1812@gmail.com', '22f3002538@ds.study.iitm.ac.in'].includes(email)) {
+      if (email.endsWith('gsv.ac.in') || ['sohamwani1812@gmail.com', '22f3002538@ds.study.iitm.ac.in'].includes(email)) {
         const usersRef = database.ref('/users/' + user.uid);
         usersRef.transaction(function (currentData) {
           if (!currentData) {
@@ -549,7 +549,7 @@
           });
       } else {
         auth.signOut();
-        alert('Registerations haven\'t started yet!');
+        alert('Only GSV domains are allowed');
       }
     }
 
