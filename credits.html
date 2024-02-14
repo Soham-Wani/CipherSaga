@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credits</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/YtmNbTq/transparent-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -24,7 +25,6 @@
         outline: none;
         border: none;
         text-decoration: none;
-        /* text-transform: capitalize; */
         transition: .2s linear;
     }
 
@@ -110,8 +110,6 @@
         padding-top: 1.5%;
     }
 
-    /* Nav bar */
-
     #navbar {
         display: flex;
         background-color: #0c0c46;
@@ -149,7 +147,6 @@
     #brand-name {
         color: #fff;
         font-size: 22px;
-        /* text-transform: uppercase; */
         font-weight: bold;
     }
 
@@ -180,25 +177,22 @@
 </style>
 
 <body>
-    <!-- Nav Bar -->
     <div id="navbar">
 
         <div id="logo-container">
             <div id="logo">
-                <!-- Replace the image source with your logo -->
-                <img src="" alt="Logo">
+                <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
             </div>
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
             <button onclick="play()"><i class="fa-solid fa-play"></i></button>
             <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
-            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+            <button onclick="home()"><i class="fa-solid fa-house"></i></button>
         </div>
 
     </div>
 
-    <!-- Credits -->
     <div class="container">
 
         <h1 class="heading">OUR TEAM</h1>
@@ -270,26 +264,28 @@
         <h3 class="heading3">Rajat Pandey</h3>
         <h3 class="heading3">Soham Wani</h3>
 
-        <h2 class="heading2">Ideation and Guidelines</h2>
+        <h2 class="heading2">Misc</h2>
+        <h3 class="heading3">Vivek Kumar</h3>
+        <h3 class="heading3">Shobhit Dubey</h3>
+
+        <h2 class="heading2">Ideation and Learning Resources</h2>
         <h3 class="heading3">IITM BS Tech Society - Cosmos</h3>
 
         <h2 class="heading2">Conducted By</h2>
         <h3 class="heading3">TechnoCrats GSV</h3>
         <footer>
             <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
-                    Domain</a></p>
+                    Domain, TechnoCrats GSV</a></p>
         </footer>
     </div>
 </body>
 
 <script>
     function openLeaderboard() {
-        // Redirect to the leaderboard.html page
         window.location.href = 'leaderboard.html';
     }
 
-    function signOut() {
-        // Add your logic to sign out
+    function home() {
         window.location.href = 'register.html';
     }
 
