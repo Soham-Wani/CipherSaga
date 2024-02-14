@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PreCipherSaga</title>
-    <!-- Add Firebase SDK -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/YtmNbTq/transparent-logo.png">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -57,7 +57,6 @@
         #brand-name {
             color: #fff;
             font-size: 22px;
-            /* text-transform: uppercase; */
             font-weight: bold;
         }
 
@@ -151,51 +150,66 @@
             color: #ddd;
             font-size: 14px;
         }
+
+        @media only screen and (max-width: 600px) {
+            #imageDisplay {
+                min-width: 70% !important;
+                max-width: auto !important;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <div id="navbar">
         <div id="logo-container">
             <div id="logo">
-                <!-- Replace the image source with your logo -->
                 <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
             </div>
             <div id="brand-name">PreCipherSaga</div>
         </div>
         <div id="navbar-buttons">
             <button onclick="openLeaderboard()"><i class="fa-solid fa-medal"></i></button>
-            <button onclick="signOut()"><i class="fa-solid fa-house"></i></button>
+            <button onclick="home()"><i class="fa-solid fa-house"></i></button>
             <button onclick="contri()"><i class="fa-solid fa-users-gear"></i></button>
         </div>
     </div>
-    <div id="content">
+    <div id="content" style="display:none">
         <h1 id="levelTitle"></h1>
         <div id="questionText"></div>
         <img id="imageDisplay" alt="Question Image">
         <button id="fileButton" onclick="openFile()">View File</button>
         <input type="text" id="answerInput" placeholder="Enter your answer">
         <button id="submitButton" onclick="submitAnswer()">Submit</button>
+        <br><br><br><br>
     </div>
     <div id="modal" class="modal"></div>
+    <div id="nostart">
+        <h1>Hunt hasn't started yet. Check back later!</h1>
+    </div>
 
     <footer>
         <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
-                Domain</a></p>
+                Domain, TechnoCrats GSV</a></p>
     </footer>
 
 
     <script>
+        const currentDate = new Date();
+        const targetDate = new Date(2024, 1, 17, 12, 0, 0);
+        if (currentDate.getTime() >= targetDate.getTime()) {
+            document.getElementById('content').style.display = "block";
+            document.getElementById('nostart').style.display = "none";
+        }
         const firebaseConfig = {
-            apiKey: "AIzaSyCYy8IoPO1w6wwVmKZ25rEY0462ULx6v7E",
-            authDomain: "usual-queries-login.firebaseapp.com",
-            databaseURL: "https://usual-queries-login-default-rtdb.firebaseio.com",
-            projectId: "usual-queries-login",
-            storageBucket: "usual-queries-login.appspot.com",
-            messagingSenderId: "808817795355",
-            appId: "1:808817795355:web:6a2454e71cdce466f773be",
-            measurementId: "G-T9V22WWTBK"
+            apiKey: "AIzaSyCe_avq70kaG5Om1Pmi3vgQdCqppZ9066k",
+            authDomain: "preciphersaga.firebaseapp.com",
+            databaseURL: "https://preciphersaga-default-rtdb.firebaseio.com",
+            projectId: "preciphersaga",
+            storageBucket: "preciphersaga.appspot.com",
+            messagingSenderId: "311896747046",
+            appId: "1:311896747046:web:9a1844f950caf462f44ae7",
+            measurementId: "G-4CFBLSVMV4"
         };
 
         firebase.initializeApp(firebaseConfig);
@@ -217,7 +231,7 @@
                     const userPoints = snapshot.val() || 0;
                     const level = Math.floor(userPoints / 100) + 1;
 
-                    document.getElementById('levelTitle').innerText = `Sample Level ${level}`;
+                    document.getElementById('levelTitle').innerText = `Level ${level}`;
 
                     const questionRef = database.ref(`/questions/${level}`);
                     questionRef.once('value')
@@ -281,14 +295,10 @@
 
                                     if (answerInput === correctAnswer) {
                                         const newPoints = userPoints + 100;
-
-                                        // Update user points
                                         userRef.update({
                                             points: newPoints,
                                             [`latest`]: firebase.database.ServerValue.TIMESTAMP
                                         });
-
-                                        // Update user level timestamp
                                         userRef.child(level.toString()).set(firebase.database.ServerValue.TIMESTAMP);
 
                                         showSuccessModal();
@@ -305,7 +315,9 @@
                                 showErrorModal();
                             })
                             .finally(() => {
-                                document.getElementById('submitButton').disabled = false;
+                                setTimeout(() => {
+                                    document.getElementById('submitButton').disabled = false;
+                                }, 3000);
                             });
                     }
                 })
@@ -322,91 +334,76 @@
                 .catch((error) => {
                     sendToDiscord();
                 });
-            async function sendToDiscord(ip, timestamp) {
-                const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
+        }
 
-                const user = auth.currentUser;
+        async function sendToDiscord(ip, timestamp) {
+            const webhookURL = "{{WEBHOOK}}";
 
-                if (user) {
-                    const userRef = database.ref(`/users/${user.uid}`);
-                    userRef.once('value')
-                        .then(snapshot => {
-                            const userData = snapshot.val();
+            const user = auth.currentUser;
 
-                            const message = {
-                                embeds: [
-                                    {
-                                        title: `<t:${timestamp}:D> <t:${timestamp}:T>`,
-                                        color: 0x0c0c46,
-                                        footer: {
-                                            text: window.location.href
+            if (user) {
+                const userRef = database.ref(`/users/${user.uid}`);
+                userRef.once('value')
+                    .then(snapshot => {
+                        const userData = snapshot.val();
+
+                        const message = {
+                            embeds: [
+                                {
+                                    title: `<t:${timestamp}:D> <t:${timestamp}:T>`,
+                                    color: 0x0c0c46,
+                                    footer: {
+                                        text: window.location.href
+                                    },
+                                    fields: [
+                                        {
+                                            name: "User Agent (IP) - ViewPort (Lang)",
+                                            value: `${navigator.userAgent} (${ip}) - ${window.innerWidth} x ${window.innerHeight} / ${window.screen.availWidth} x ${window.screen.availHeight} (${navigator.languages.join(", ")})`,
+                                            inline: false
                                         },
-                                        fields: [
-                                            {
-                                                name: "IP",
-                                                value: ip,
-                                                inline: true
-                                            },
-                                            {
-                                                name: "Languages",
-                                                value: navigator.languages.join(", "),
-                                                inline: true
-                                            },
-                                            {
-                                                name: "ViewPort",
-                                                value: `${window.innerWidth} x ${window.innerHeight} / ${window.screen.availWidth} x ${window.screen.availHeight}`,
-                                                inline: true
-                                            },
-                                            {
-                                                name: "Navigation",
-                                                value: [`New ${document.referrer}`, "Reload"][
-                                                    window.performance.navigation.type
-                                                ],
-                                                inline: false
-                                            },
-                                            {
-                                                name: "User Agent Info",
-                                                value: navigator.userAgent,
-                                                inline: false
-                                            },
-                                            {
-                                                name: "Answer",
-                                                value: document.getElementById('answerInput').value,
-                                                inline: false
-                                            },
-                                            {
-                                                name: "User",
-                                                value: `${user.displayName} (${user.email})\nPoints: ${userData.points || 0}`,
-                                                inline: false
-                                            }
-                                        ]
-                                    }
-                                ]
-                            };
+                                        {
+                                            name: "Navigation",
+                                            value: [`New ${document.referrer}`, "Reload"][
+                                                window.performance.navigation.type
+                                            ],
+                                            inline: false
+                                        },
+                                        {
+                                            name: "Answer",
+                                            value: document.getElementById('answerInput').value,
+                                            inline: false
+                                        },
+                                        {
+                                            name: "User",
+                                            value: `${user.displayName} (${user.email})\nPoints: ${userData.points || 0}`,
+                                            inline: false
+                                        }
+                                    ]
+                                }
+                            ]
+                        };
 
-                            fetch(webhookURL, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(message)
-                            })
-                                .then((response) => {
-                                    if (response.status === 204) console.log("Success");
-                                    else console.error("Error");
-                                })
-                                .catch((error) => {
-                                    console.error(error);
-                                });
+                        fetch(webhookURL, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(message)
                         })
-                        .catch(error => {
-                            console.error("Error retrieving user data:", error);
-                        });
-                } else {
-                    // Handle case where user is not authenticated
-                }
+                            .then((response) => {
+                                if (response.status === 204) console.log("Success");
+                                else console.error("Error");
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    })
+                    .catch(error => {
+                        console.error("Error retrieving user data:", error);
+                    });
             }
         }
+
         function showSuccessModal() {
             const modal = document.getElementById('modal');
             modal.innerText = 'Congrats! Right answer.';
@@ -430,21 +427,17 @@
         }
 
         function openLeaderboard() {
-            // Redirect to the leaderboard.html page
             window.location.href = 'leaderboard.html';
         }
 
-        function signOut() {
-            // Add your logic to sign out
+        function home() {
             window.location.href = 'register.html';
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Calculate the height of the navbar
             const navbarHeight = document.getElementById('navbar').offsetHeight;
-
-            // Set margin-top for the content dynamically
             document.getElementById('content').style.marginTop = navbarHeight + 'px';
+            document.getElementById('nostart').style.marginTop = navbarHeight + 'px';
         });
 
         function contri() {
