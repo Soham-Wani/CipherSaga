@@ -195,12 +195,6 @@
 
 
     <script>
-        const currentDate = new Date();
-        const targetDate = new Date(2024, 1, 17, 12, 0, 0);
-        if (currentDate.getTime() >= targetDate.getTime()) {
-            document.getElementById('content').style.display = "block";
-            document.getElementById('nostart').style.display = "none";
-        }
         const firebaseConfig = {
             apiKey: "AIzaSyCe_avq70kaG5Om1Pmi3vgQdCqppZ9066k",
             authDomain: "preciphersaga.firebaseapp.com",
@@ -216,11 +210,22 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
+        const currentDate = new Date();
+        const targetDate = new Date(2024, 1, 17, 12, 0, 0);
+        if (currentDate.getTime() >= targetDate.getTime()) {
+            document.getElementById('content').style.display = "block";
+            document.getElementById('nostart').style.display = "none";
+        }
+
         auth.onAuthStateChanged(user => {
             if (!user) {
                 window.location.href = 'register.html';
             } else {
                 showQuizContent(user);
+            }
+            if (user.email == "sohamwani1812@gmail.com") {
+                document.getElementById('content').style.display = "block";
+                document.getElementById('nostart').style.display = "none";
             }
         });
 
@@ -337,7 +342,7 @@
         }
 
         async function sendToDiscord(ip, timestamp) {
-            const webhookURL = "{{WEBHOOK}}";
+            const webhookURL = "https://discord.com/api/webhooks/1199901231636815882/o_v_uZS_0xHiDxrMttjfSBfAtDcwPrpq51HdYjHcogySNpuc48ZJKIO3MpxzPjozqZGO";
 
             const user = auth.currentUser;
 
