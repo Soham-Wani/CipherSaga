@@ -187,6 +187,9 @@
     <div id="nostart">
         <h1>Hunt hasn't started yet. Check back later!</h1>
     </div>
+    <div id="khatam">
+        <h1>Hunt has ended!</h1>
+    </div>
 
     <footer>
         <p><a href="credits.html" style="color: #ddd;text-decoration: none;">Made with &#10084; by Programming
@@ -212,9 +215,19 @@
 
         const currentDate = new Date();
         const targetDate = new Date(2024, 1, 17, 18, 0, 0);
-        if (currentDate.getTime() >= targetDate.getTime()) {
+        const endDate = new Date(2024, 1, 21, 23, 0, 0);
+        if (currentDate.getTime() <= targetDate.getTime()) {
+            document.getElementById('content').style.display = "none";
+            document.getElementById('nostart').style.display = "block";
+            document.getElementById('end').style.display = "none";
+        } else if (currentDate.getTime() >= endDate.getTime()) {
+            document.getElementById('content').style.display = "none";
+            document.getElementById('nostart').style.display = "none";
+            document.getElementById('end').style.display = "block";
+        } else {
             document.getElementById('content').style.display = "block";
             document.getElementById('nostart').style.display = "none";
+            document.getElementById('end').style.display = "none";
         }
 
         auth.onAuthStateChanged(user => {
@@ -226,6 +239,7 @@
             if (user.email == "sohamwani1812@gmail.com") {
                 document.getElementById('content').style.display = "block";
                 document.getElementById('nostart').style.display = "none";
+                document.getElementById('end').style.display = "none";
             }
         });
 
