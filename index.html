@@ -219,15 +219,15 @@
         if (currentDate.getTime() <= targetDate.getTime()) {
             document.getElementById('content').style.display = "none";
             document.getElementById('nostart').style.display = "block";
-            document.getElementById('end').style.display = "none";
+            document.getElementById('khatam').style.display = "none";
         } else if (currentDate.getTime() >= endDate.getTime()) {
             document.getElementById('content').style.display = "none";
             document.getElementById('nostart').style.display = "none";
-            document.getElementById('end').style.display = "block";
+            document.getElementById('khatam').style.display = "block";
         } else {
             document.getElementById('content').style.display = "block";
             document.getElementById('nostart').style.display = "none";
-            document.getElementById('end').style.display = "none";
+            document.getElementById('khatam').style.display = "none";
         }
 
         auth.onAuthStateChanged(user => {
@@ -239,7 +239,7 @@
             if (user.email == "sohamwani1812@gmail.com") {
                 document.getElementById('content').style.display = "block";
                 document.getElementById('nostart').style.display = "none";
-                document.getElementById('end').style.display = "none";
+                document.getElementById('khatam').style.display = "none";
             }
         });
 
