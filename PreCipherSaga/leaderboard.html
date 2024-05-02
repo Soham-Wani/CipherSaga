@@ -130,6 +130,9 @@
         </div>
     </div>
     <div id="content">
+        <span>
+            Leaderboard has been disabled
+        </span>
         <table>
             <tr>
                 <th>Rank</th>
@@ -175,7 +178,7 @@
 
                 var userNameRef = firebase.database().ref('users/' + userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
-                    var userName = nameSnapshot.val() || 'Unknown';
+                    var userName = 'Unknown';
 
                     var row = "<tr><td>" + rank + "</td><td>" + userName + "</td><td>" + points + "</td></tr>";
                     document.querySelector('table').insertAdjacentHTML('beforeend', row);
