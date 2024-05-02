@@ -12,7 +12,7 @@ Cipher Saga is an interactive web application designed for hosting cryptic hunt 
 - Responsive design and easily customizable CSS and JavaScript.
 
 # Usage
-## Host a hunt
+### Host a hunt
 To use the platform to host similar hunts, you need to:
 - Clone the repository.
 - Configure your Firebase in all `.html` files.
@@ -20,7 +20,7 @@ To use the platform to host similar hunts, you need to:
 - Edit HTML, CSS and JavaScript if required.
 - Host the final files on GitHub Pages or anywhere else.
 
-## Play
+### Play
 You can enjoy playing all levels of Cipher Saga and Pre Cipher Saga by accessing the platforms from below:
 - [PreCipherSaga](https://soham-wani.github.io/CipherSaga/PreCipherSaga/)
 - [CipherSaga](https://soham-wani.github.io/CipherSaga/CipherSaga/)
