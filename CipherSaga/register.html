@@ -201,7 +201,7 @@
       <summary><i class="fa-solid fa-angles-down"></i> &nbsp;&nbsp;&nbsp; About The Event</summary>
       <p>
         Cipher Saga is a cryptic hunt event being held during EPITOME'24, the annual tech fest of Gati
-        Shakti Vishwavidyalaya, Vadodara.
+        Shakti Vishwavidyalaya, Vadodara. It has been made open so that others can also enjoy the world of cryptic hunts.
       </p>
     </details>
 
@@ -407,7 +407,7 @@
 
     function handleSignIn(user) {
       const email = user.email;
-      if (email.endsWith('gsv.ac.in') || ['sohamwani1812@gmail.com'].includes(email)) {
+      if (true) {
         const usersRef = database.ref('/users/' + user.uid);
         usersRef.transaction(function (currentData) {
           if (!currentData) {
@@ -434,7 +434,7 @@
           });
       } else {
         auth.signOut();
-        alert('Only GSV domains are allowed');
+        alert('An error occured');
       }
     }
 
