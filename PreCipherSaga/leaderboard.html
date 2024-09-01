@@ -178,7 +178,11 @@
 
                 var userNameRef = firebase.database().ref('users/' + userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
-                    var userName = 'Unknown';
+                    if (firebase.auth().currentUser.email !== 'sohamwani1812@gmail.com') {
+                        userName = 'Hidden';
+                    } else {
+                        userName = nameSnapshot.val() || 'Unknown';
+                    }
 
                     var row = "<tr><td>" + rank + "</td><td>" + userName + "</td><td>" + points + "</td></tr>";
                     document.querySelector('table').insertAdjacentHTML('beforeend', row);

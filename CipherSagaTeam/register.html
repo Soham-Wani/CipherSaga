@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://i.ibb.co/YtmNbTq/transparent-logo.png">
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #profileCard {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      box-sizing: border-box;
+      background: #003b00;
+      color: #fff;
+    }
+
+    #profileCard #navbar-buttons button {
+      background: #000;
+    }
+
+    #profilePhoto {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px;
+    }
+
+    #profilePhoto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #profileInfo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #profileName {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    #profileEmail {
+      font-size: 14px;
+    }
+
+    #profileButtons {
+      display: flex;
+      align-items: center;
+    }
+
+    #content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    #signInButton {
+      display: block;
+    }
+
+    @media only screen and (max-width: 600px) {
+      #profileCard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      #userInfo {
+        margin-top: 10px;
+      }
+
+      #navbar-buttons {
+        margin-top: 10px;
+      }
+    }
+
+    #content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    details {
+      margin-bottom: 20px;
+      color: #ddd;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      cursor: pointer;
+      color: #fff;
+      list-style: none;
+    }
+
+    details p {
+      margin-bottom: 15px;
+    }
+
+    details ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    details li {
+      margin-bottom: 8px;
+      list-style: initial;
+    }
+
+    details a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    details a:hover {
+      text-decoration: underline;
+      color: #909090;
+    }
+
+    #intro {
+      padding-top: 10vh;
+      text-align: center;
+    }
+
+    #intro img {
+      max-width: 75vw;
+    }
+
+    #intro h2 {
+      margin-top: 10px;
+      font-size: 8vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="navbar">
+    <div id="logo-container">
+      <div id="logo">
+        <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
+      </div>
+      <div id="name">Cipher Saga <i style="font-weight:100;font-size:18px">Team Edition</i></div>
+    </div>
+    <div id="navbar-buttons">
+      <button onclick="play()"><i class="fa fa-play" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <div id="intro">
+    <h2>Kr loge na?</h2>
+  </div>
+
+  <div id="profileCard">
+    <div id="profilePhoto">
+      <img src="" alt="User Profile">
+    </div>
+    <div id="userInfo">
+      <div id="userName"></div>
+      <div id="userEmail"></div>
+      <div id="userPoints"></div>
+    </div>
+    <div id="navbar-buttons">
+      <button id="signInButton">Sign In with Google</button>
+      <button id="signOutButton">Sign Out</button>
+      <button id="toggleHideButton" onclick="toggleHide()">Hide</button>
+      <button id="play" onclick="play()">Play</button>
+    </div>
+  </div>
+
+  <div id="content">
+    At Cipher Saga, aptitude and trust are the cornerstones of our team's success. To preserve the same spirit of fun
+    and authenticity that has defined our previous editions, I've decided to streamline the team to just 2-3 members.
+    But don't worry, your past contributions have been invaluable, and we deeply appreciate your role in shaping the
+    Cipher Saga family.
+    <br><br>
+    The primary goal of this team edition of Cipher Saga is to identify who will carry the torch in future
+    editions, based on a variety of criteria. This serves as both a tribute to our original Pre-Cipher Saga team and a
+    step toward realizing our vision of making this event a lasting legacy at GSV.
+    <br><br>
+    So gear up and get deciphering, you know the drill! Wishing you the best of luck!
+    <br><br>
+    Yours truly, Soham Wani
+    <br><br>
+    <b>Previous Team Members:</b> Soham Wani, Shreya Mohanty, Rishav Kumar, Meet Parmar, Shruti Verma, Aditya Acharya
+    <br>
+    <b>Special Thanks:</b> Rajat Pandey, Vivek Kumar, Shobhit Dubey, and all the participants
+  </div>
+  <script>
+    players = ['sohamwani1812@gmail.com', 'wani.soham_btech22@gsv.ac.in', 'shreya.mohanty_btech23@gsv.ac.in', 'rishav.kumar_btech23@gsv.ac.in', 'meet.parmar_btech23@gsv.ac.in', 'shruti.verma_btech23@gsv.ac.in', 'aditya.acharya_btech23@gsv.ac.in', 'rajat.pandey_btech21@gsv.ac.in', 'vivek.kumar_btech22@gsv.ac.in', 'shobhit.dubey_btech22@gsv.ac.in']
+    const firebaseConfig = {
+      apiKey: "AIzaSyCe_avq70kaG5Om1Pmi3vgQdCqppZ9066k",
+      authDomain: "preciphersaga.firebaseapp.com",
+      databaseURL: "https://preciphersaga-default-rtdb.firebaseio.com",
+      projectId: "preciphersaga",
+      storageBucket: "preciphersaga.appspot.com",
+      messagingSenderId: "311896747046",
+      appId: "1:311896747046:web:9a1844f950caf462f44ae7",
+      measurementId: "G-4CFBLSVMV4"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database().ref('ciphersagateam');
+
+    function updateProfileCard(user) {
+      if (players.includes(user.email)) {
+        const profilePhotoElement = document.getElementById('profilePhoto').getElementsByTagName('img')[0];
+        const profileNameElement = document.getElementById('userName');
+        const profileEmailElement = document.getElementById('userEmail');
+        const profilePointsElement = document.getElementById('userPoints');
+        document.getElementById('signInButton').style.display = 'none';
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+
+        if (user.photoURL) {
+          profilePhotoElement.src = user.photoURL;
+        } else {
+          profilePhotoElement.src = 'https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png?w=1024';
+        }
+
+        profileNameElement.innerHTML = user.displayName || 'Unknown';
+        profileEmailElement.innerHTML = user.email || 'No email available';
+
+        const usersRef = database.child('/users/' + user.uid);
+        usersRef.once('value')
+          .then(snapshot => {
+            const userData = snapshot.val();
+            if (userData && userData.points !== undefined) {
+              profilePointsElement.innerHTML = 'Points: ' + userData.points;
+            } else {
+              profilePointsElement.innerHTML = 'No points available';
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching user data:", error);
+            profilePointsElement.innerHTML = 'Error fetching points';
+          });
+      } else {
+        auth.signOut()
+      }
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        updateProfileCard(user);
+        updateHideButtonText();
+      } else {
+        handleSignOut();
+      }
+    });
+
+    document.getElementById('signInButton').addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          handleSignIn(result.user);
+        })
+        .catch(error => {
+          console.error("Error signing in:", error);
+        });
+    });
+
+    document.getElementById('signOutButton').addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    function handleSignIn(user) {
+      const email = user.email;
+      if (players.includes(email)) {
+        const usersRef = database.child('/users/' + user.uid);
+        usersRef.transaction(function (currentData) {
+          if (!currentData) {
+            return {
+              points: 0,
+              name: user.displayName || 'Unknown',
+              hide: 0,
+              banned: 0
+            };
+          }
+        })
+          .then(() => {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('signInButton').style.display = 'none';
+            document.getElementById('signOutButton').style.display = 'block';
+            document.getElementById('toggleHideButton').style.display = 'block';
+            document.getElementById('play').style.display = 'block';
+            document.getElementById('profilePhoto').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('profileCard').style.justifyContent = 'space-between';
+          })
+          .catch(error => {
+            console.error("Error creating /users/uid node:", error);
+          });
+      } else {
+        auth.signOut();
+        alert('You are not authorized to access this restricted event');
+      }
+    }
+
+    function handleSignOut() {
+      document.getElementById('intro').style.display = 'block';
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('signInButton').style.display = 'block';
+      document.getElementById('signOutButton').style.display = 'none';
+      document.getElementById('toggleHideButton').style.display = 'none';
+      document.getElementById('play').style.display = 'none';
+      document.getElementById('profilePhoto').style.display = 'none';
+      document.getElementById('userInfo').style.display = 'none';
+      document.getElementById('profileCard').style.justifyContent = 'center';
+    }
+
+    function toggleHide() {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        const userId = user.uid;
+        const userRef = database.child('users/' + userId);
+        userRef.once('value').then(snapshot => {
+          const hideValue = snapshot.val().hide;
+          const newHideValue = (hideValue === 0) ? 1 : 0;
+          userRef.update({ hide: newHideValue }).then(() => {
+            document.getElementById('toggleHideButton').textContent = (newHideValue === 0) ? 'Hide' : 'Unhide';
+          }).catch(error => {
+            console.error('Error updating hide value:', error);
+          });
+        }).catch(error => {
+          console.error('Error fetching hide value:', error);
+        });
+      } else {
+        console.error('User is not signed in.');
+      }
+    }
+
+    async function updateHideButtonText() {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        try {
+          const userId = user.uid;
+          const userRef = firebase.database().ref('users/' + userId);
+          const snapshot = await userRef.once('value');
+          const hideValue = snapshot.val().hide;
+          document.getElementById('toggleHideButton').textContent = hideValue ? 'Unhide' : 'Hide';
+        } catch (error) {
+          console.error('Error fetching hide value:', error);
+        }
+      } else {
+        console.error('User is not signed in.');
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const navbarHeight = document.getElementById('navbar').offsetHeight;
+      document.getElementById('profileCard').style.marginTop = navbarHeight + 'px';
+    });
+
+    // Nav-bar Buttons
+
+    function play() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+
+</html>
