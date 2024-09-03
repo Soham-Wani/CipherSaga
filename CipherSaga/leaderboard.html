@@ -82,7 +82,6 @@
 
                 var userNameRef = firebase.database().ref('users/' + userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
-                    var userName = nameSnapshot.val() || 'Unknown';
                     if (firebase.auth().currentUser.email !== 'sohamwani1812@gmail.com') {
                         userName = 'Hidden';
                     } else {
