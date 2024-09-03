@@ -21,7 +21,7 @@
             <div id="logo">
                 <img src="https://i.ibb.co/Zmqqt73/IMG-20240125-223643.jpg" alt="Logo">
             </div>
-            <div id="name">Cipher Saga <i>Team</i></div>
+            <div id="name">Cipher Saga <i style="font-weight:100;font-size:18px">Team Edition</i></div>
         </div>
     </div>
     <div id="content">
@@ -65,7 +65,6 @@
 
                 var userNameRef = database.child('users/' + userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
-                    var userName = nameSnapshot.val() || 'Unknown';
                     if (firebase.auth().currentUser.email !== 'sohamwani1812@gmail.com') {
                         userName = 'Hidden';
                     } else {
