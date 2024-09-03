@@ -14,6 +14,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <style>
+        #message {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #d3d3d3;
+        }
+        
         #questionText {
             font-size: 24px;
             margin-bottom: 20px;
@@ -101,6 +107,7 @@
     </div>
     <div id="content" style="display:none">
         <h1 id="levelTitle"></h1>
+        <div id="message"></div>
         <div id="questionText"></div>
         <img id="imageDisplay" alt="Question Image">
         <button id="fileButton" onclick="openFile()">View File</button>
@@ -201,6 +208,7 @@
 
                             if (questionData) {
                                 document.getElementById('questionText').innerHTML = questionData.text.replace(/\\n/g, '<br>');
+                                document.getElementById('message').innerHTML = questionData.msg.replace(/\\n/g, '<br>');
                                 document.getElementById('submitButton').appendChild(document.createComment(questionData.comment));
 
                                 if (questionData.image) {
