@@ -208,7 +208,12 @@
 
                             if (questionData) {
                                 document.getElementById('questionText').innerHTML = questionData.text.replace(/\\n/g, '<br>');
-                                document.getElementById('message').innerHTML = questionData.msg.replace(/\\n/g, '<br>');
+                                if (questionData.msg) {
+                                    document.getElementById('message').innerHTML = questionData.msg.replace(/\\n/g, '<br>');
+                                    document.getElementById('message').style.display = 'block';
+                                } else {
+                                    document.getElementById('message').style.display = 'none';
+                                }
                                 document.getElementById('submitButton').appendChild(document.createComment(questionData.comment));
 
                                 if (questionData.image) {
