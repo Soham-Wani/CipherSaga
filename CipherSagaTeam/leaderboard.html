@@ -45,7 +45,7 @@
             measurementId: "G-4CFBLSVMV4"
         };
         firebase.initializeApp(firebaseConfig);
-        var usersRef = firebase.database().ref('ciphersagateam');
+        var usersRef = firebase.database().ref('ciphersagateam/users');
 
         usersRef.once('value').then(function (snapshot) {
             var users = Object.entries(snapshot.val());
@@ -63,7 +63,7 @@
                 var points = user[1].points;
                 var hide = user[1].hide;
 
-                var userNameRef = usersRef.child('users/' + userId + '/name');
+                var userNameRef = usersRef.child(userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
                     if (firebase.auth().currentUser.email !== 'sohamwani1812@gmail.com') {
                         userName = 'Hidden';
