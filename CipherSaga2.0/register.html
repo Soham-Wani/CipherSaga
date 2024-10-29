@@ -346,7 +346,7 @@
         };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const database = firebase.database();
+    const database = firebase.database().ref('ciphersaga2');
 
     function updateProfileCard(user) {
       const profilePhotoElement = document.getElementById('profilePhoto').getElementsByTagName('img')[0];
@@ -365,7 +365,7 @@
       profileNameElement.innerHTML = user.displayName || 'Unknown';
       profileEmailElement.innerHTML = user.email || 'No email available';
 
-      const usersRef = database.ref('/users/' + user.uid);
+      const usersRef = database.child('/users/' + user.uid);
       usersRef.once('value')
         .then(snapshot => {
           const userData = snapshot.val();
@@ -408,7 +408,7 @@
     function handleSignIn(user) {
       const email = user.email;
       if (true) {
-        const usersRef = database.ref('/users/' + user.uid);
+        const usersRef = database.child('/users/' + user.uid);
         usersRef.transaction(function (currentData) {
           if (!currentData) {
             return {
@@ -453,7 +453,7 @@
       const user = firebase.auth().currentUser;
       if (user) {
         const userId = user.uid;
-        const userRef = firebase.database().ref('users/' + userId);
+        const userRef = database.child('users/' + userId);
         userRef.once('value').then(snapshot => {
           const hideValue = snapshot.val().hide;
           const newHideValue = (hideValue === 0) ? 1 : 0;
@@ -475,7 +475,7 @@
       if (user) {
         try {
           const userId = user.uid;
-          const userRef = firebase.database().ref('users/' + userId);
+          const userRef = database.child('users/' + userId);
           const snapshot = await userRef.once('value');
           const hideValue = snapshot.val().hide;
           document.getElementById('toggleHideButton').textContent = hideValue ? 'Unhide' : 'Hide';

@@ -137,7 +137,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const database = firebase.database();
+        const database = firebase.database().ref('ciphersaga2');
 
         const currentDate = new Date();
         const targetDate = new Date(2024, 1, 28, 12, 0, 0);
@@ -146,7 +146,7 @@
         async function disp() {
             const user = firebase.auth().currentUser;
             const userId = user.uid;
-            const userRef = firebase.database().ref('users/' + userId);
+            const userRef = database.child('users/' + userId);
             const snapshot = await userRef.once('value');
             const banBool = snapshot.val().banned;
             if (user.email == "sohamwani1812@gmail.com") {
@@ -189,7 +189,7 @@
         });
 
         function showQuizContent(user) {
-            const userRef = database.ref(`/users/${user.uid}/points`);
+            const userRef = database.child(`/users/${user.uid}/points`);
             userRef.once('value')
                 .then(snapshot => {
                     const userPoints = snapshot.val() || 0;
@@ -197,7 +197,7 @@
 
                     document.getElementById('levelTitle').innerText = `Level ${level}`;
 
-                    const questionRef = database.ref(`/questions/${level}`);
+                    const questionRef = database.child(`/questions/${level}`);
                     questionRef.once('value')
                         .then(snapshot => {
                             const questionData = snapshot.val();
@@ -239,7 +239,7 @@
 
         function submitAnswer() {
             const user = auth.currentUser;
-            const userRef = database.ref(`/users/${user.uid}`);
+            const userRef = database.child(`/users/${user.uid}`);
             userRef.once('value')
                 .then(snapshot => {
                     const userData = snapshot.val();
@@ -250,7 +250,7 @@
                     if (answerInput) {
                         document.getElementById('submitButton').disabled = true;
 
-                        const questionRef = database.ref(`/questions/${level}`);
+                        const questionRef = database.child(`/questions/${level}`);
                         questionRef.once('value')
                             .then(snapshot => {
                                 const questionData = snapshot.val();
@@ -307,7 +307,7 @@
             const user = auth.currentUser;
 
             if (user) {
-                const userRef = database.ref(`/users/${user.uid}`);
+                const userRef = database.child(`/users/${user.uid}`);
                 userRef.once('value')
                     .then(snapshot => {
                         const userData = snapshot.val();

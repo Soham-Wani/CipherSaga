@@ -62,7 +62,7 @@
             measurementId: "G-K5MTVTEW0J"
         };
         firebase.initializeApp(firebaseConfig);
-        var usersRef = firebase.database().ref('users');
+        var usersRef = firebase.database().ref('ciphersaga2/users');
 
         usersRef.once('value').then(function (snapshot) {
             var users = Object.entries(snapshot.val());
@@ -80,7 +80,7 @@
                 var points = user[1].points;
                 var hide = user[1].hide;
 
-                var userNameRef = firebase.database().ref('users/' + userId + '/name');
+                var userNameRef = database.child(userId + '/name');
                 userNameRef.once('value').then(function (nameSnapshot) {
                     if (firebase.auth().currentUser.email !== 'sohamwani1812@gmail.com') {
                         userName = 'Hidden';
