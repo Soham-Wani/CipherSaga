@@ -41,3 +41,18 @@ My hearfelt thanks to all the participants who participated and made this event 
 A special thanks to Rajat Pandey bhaiya who guided me and the juniors wherever necessary and stood behind us at every moment.
 
 Last but not the least, a huge thanks to all the volunteers, supporters, organizing team members, faculties and people who have been working behind the scenes. Naming a few will be injustice to others, but do know that your efforts didn't go unnoticed and we all appreciate your help.
+
+## Cipher Saga 2.0 – A Successful Sequel!
+
+I am thrilled to share that **Cipher Saga 2.0** was successfully conducted during Epitome'25 at Gati Shakti Vishwavidyalaya, attracting a record-breaking number of 180+ participants!
+
+### Team
+- Event Head - Soham Wani
+- Event Head - Shreya Mohanty
+- Volunteer - Rishav Kumar
+
+### Important Links
+- [LinkedIn Post](https://www.linkedin.com/posts/soham-wani-b0726a262_cipher-saga-started-as-an-idea-an-attempt-activity-7310391223620374528-5w0k)  
+- [GitHub Repository](https://github.com/technocratsgsv/Cipher-Saga-2.0)
+
+*Long live Cipher Saga and its legacy*
