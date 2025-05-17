@@ -42,7 +42,7 @@ A special thanks to Rajat Pandey bhaiya who guided me and the juniors wherever n
 
 Last but not the least, a huge thanks to all the volunteers, supporters, organizing team members, faculties and people who have been working behind the scenes. Naming a few will be injustice to others, but do know that your efforts didn't go unnoticed and we all appreciate your help.
 
-## Cipher Saga 2.0 – A Successful Sequel!
+# Cipher Saga 2.0 – A Successful Sequel!
 
 I am thrilled to share that **Cipher Saga 2.0** was successfully conducted during Epitome'25 at Gati Shakti Vishwavidyalaya, attracting a record-breaking number of 180+ participants!
 
